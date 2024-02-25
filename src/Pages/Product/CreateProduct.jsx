@@ -14,6 +14,7 @@ const CreateProduct = () => {
     product_title: string().required("Please enter valid product name"),
     product_description: string().required(
       "Please enter valid product description"
+  
     ),
     regular_price: number().required().positive().integer(),
     sale_price: number().required().positive().integer(),
