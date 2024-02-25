@@ -2,9 +2,11 @@ import React from "react";
 import { useFormik } from "formik";
 
 
-const Input = ({ type, formik, id, name, value, onChange, onBlur, className, placeholder ,...props }) => {
+const Input = ({ type, formik, id, name, value, onChange, onBlur, className, placeholder,title ,...props }) => {
   return (
     <div className="mb-5">
+     <label htmlFor={name} class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{title}</label>
+
     <input
       type={type}
       id={id}

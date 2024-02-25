@@ -3,13 +3,12 @@ import React from "react";
 import { useFormik } from "formik";
 import { number, object, mixed, string } from "yup";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import Ckeditiors from "../../Components/Ckeditiors";
-
 
 const CreateProduct = () => {
   const validationScheme = object({
@@ -43,13 +42,11 @@ const CreateProduct = () => {
     },
   });
 
-  
-  async function apisendata(formdata){
+  async function apisendata(formdata) {
     try {
       const res = await axios.post("http://localhost:3000/products", formdata);
       console.log(res.data.message);
       toast.success(res.data.message);
-      
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -63,8 +60,8 @@ const CreateProduct = () => {
         class=" max-w-md mx-auto"
         onSubmit={formik.handleSubmit}
       >
-         <ToastContainer />
         <Input
+          title="Product Name"
           type="text"
           formik={formik}
           id="product_title"
@@ -76,6 +73,7 @@ const CreateProduct = () => {
         />
         <div className="mb-5">
           <Ckeditiors
+            title="Product Details"
             formik={formik}
             name="product_description"
             className="h-[300px]"
@@ -84,6 +82,7 @@ const CreateProduct = () => {
         </div>
         <div class="mb-5">
           <Input
+            title="Regular Price"
             formik={formik}
             type="number"
             id="regular_price"
@@ -96,6 +95,7 @@ const CreateProduct = () => {
         </div>
 
         <Input
+          title="Sale Price"
           formik={formik}
           type="number"
           id="sale_price"
@@ -108,6 +108,7 @@ const CreateProduct = () => {
         />
 
         <Input
+          title="Product Image"
           formik={formik}
           class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           aria-describedby="product_image"
