@@ -33,7 +33,6 @@ const CreateProduct = () => {
     validationSchema: validationScheme,
     onSubmit: (values) => {
       console.log(values);
-     
       const formData = new FormData();
       formData.append("product_title", values.product_title);
       formData.append("product_description", values.product_description);
