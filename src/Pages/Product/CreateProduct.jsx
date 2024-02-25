@@ -43,6 +43,7 @@ const CreateProduct = () => {
     },
   });
 
+  
   async function apisendata(formdata){
     try {
       const res = await axios.post("http://localhost:3000/products", formdata);
