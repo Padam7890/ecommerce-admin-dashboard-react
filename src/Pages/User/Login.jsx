@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { number, object, mixed, string } from "yup";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,14 @@ const Login = () => {
     },
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigation("/"); 
+    }
+  }, [navigation]);
+
+
   async function loginUser(values) {
     try {
       const res = await axios.post("http://localhost:3000/auth/login", values);
@@ -58,6 +67,7 @@ const Login = () => {
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6"  onSubmit={formik.handleSubmit} >
+             <ToastContainer/>
               <div>
                 <Input
                   title={"Your Email Address"}
@@ -121,12 +131,16 @@ const Login = () => {
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
+
+                <NavLink to={'/register'}>
+ <a
                   href="#"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
                 </a>
+                </NavLink>
+               
               </p>
             </form>
           </div>

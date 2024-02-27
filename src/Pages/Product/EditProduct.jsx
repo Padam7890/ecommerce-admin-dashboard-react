@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useFormik } from "formik";
 import { number, object, mixed, string } from "yup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import Ckeditiors from "../../Components/Ckeditiors";
 
-const CreateProduct = () => {
+const EditProduct = () => {
+  const { id } = useParams();
   const nav = useNavigate();
+
   const validationScheme = object({
     product_title: string().required("Please enter valid product name"),
     product_description: string().required(
@@ -49,16 +51,38 @@ const CreateProduct = () => {
       const res = await axios.post("http://localhost:3000/products", formdata);
       console.log(res.data.message);
       toast.success(res.data.message);
-      nav('/products')
+      nav("/products");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.error);
+    }
+  }
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  async function getProduct() {
+    try {
+      const res = await axios.get(`http://localhost:3000/products/${id}`);
+      console.log(res.data.message);
+      formik.setFieldValue("product_title", res.data.product.product_title);
+      formik.setFieldValue(
+        "product_description",
+        res.data.product.product_description
+      );
+      formik.setFieldValue("regular_price", res.data.product.regular_price);
+      formik.setFieldValue("sale_price", res.data.product.sale_price);
+      formik.setFieldValue("product_image", res.data.product.product_image);
+    } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
     }
   }
 
   return (
     <>
-          <ToastContainer />
+      <ToastContainer />
 
       <form
         encType="multipart/form-data"
@@ -125,7 +149,6 @@ const CreateProduct = () => {
           type="file"
           name="product_image"
           accept="image/*"
-          required
         />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
@@ -136,4 +159,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;

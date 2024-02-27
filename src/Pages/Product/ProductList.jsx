@@ -1,17 +1,37 @@
 // src/components/ProductList.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../Components/Button";
 import { Navigate, useNavigate } from "react-router-dom";
 import Table from "../../Components/Table Components/Table";
 import TableHead from "../../Components/Table Components/TableHead";
 import TableBody from "../../Components/Table Components/TableBody";
 import TableRow from "../../Components/Table Components/TableRow";
+import axios from "axios";
+import parse from "html-react-parser";
+import { NavLink } from "react-router-dom";
 
 const ProductList = () => {
+  const [products, setProducts] = useState([]);
   const nav = useNavigate();
   const handleButtonClick = () => {
     nav("/product/create");
   };
+
+  useEffect(() => {
+    apiHandleproductList();
+  }, []);
+
+  async function apiHandleproductList() {
+    try {
+      const fetch = await axios.get("http://localhost:3000/products");
+      const data = fetch.data.products;
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  console.log(products);
 
   return (
     <div>
@@ -60,7 +80,6 @@ const ProductList = () => {
         <Table>
           <TableHead>
             <tr>
-              <th scope="col"> {/* ... */} </th>
               <th scope="col">Product name</th>
               <th scope="col">Color</th>
               <th scope="col">Category</th>
@@ -69,21 +88,24 @@ const ProductList = () => {
             </tr>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <td> {/* ... */} </td>
-              <td>Apple MacBook Pro 17"</td>
-              <td>Silver</td>
-              <td>Laptop</td>
-              <td>$2999</td>
-              <td>
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-              </td>
-            </TableRow>
+            {products.map((products) => (
+              <TableRow>
+                <td>{products.product_title}</td>
+                <td>{parse(products.product_description)}</td>
+                <td>Laptop</td>
+                <td>$2999</td>
+                <td>
+                  <NavLink to={`/product/edit/${products.id}`}> 
+                    <a
+                      href="#"
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </a>
+                  </NavLink>
+                </td>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
