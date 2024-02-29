@@ -1,11 +1,13 @@
-// src/components/Sidebar.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginAction } from "./../redux/slice/authSlice";
-
+import { RxDashboard } from "react-icons/rx";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdCategory } from "react-icons/md";
+import { MdDashboardCustomize } from "react-icons/md";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -20,46 +22,74 @@ const Sidebar = () => {
       navigation("/login");
     }
   }, []);
-  return (
-    <div className="bg-gray-800 text-white h-screen w-1/5 p-4">
-      <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
-      <nav>
 
-        <ul className=" flex flex-col gap-3">
-          <li>
-            <NavLink
-              className={({ isActive }) => {
-                return isActive ? " text-green-300" : "";
-              }}
-              to="/"
-            >
-              Dashboard
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => {
-                return isActive ? " text-green-300" : "";
-              }}
-              to="/products"
-            >
-              Products
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className={({ isActive }) => {
-                return isActive ? " text-green-300" : "";
-              }}
-              to="/categories"
-            >
-              Category
-            </NavLink>
-          </li>
-          {/* Add more navigation links as needed */}
-        </ul>
-      </nav>
-    </div>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function showMenu() {
+    setIsMenuOpen(!isMenuOpen);
+    console.log(isMenuOpen);
+  }
+
+  return (
+    <>
+      <div className={`max-md:block  hidden  absolute ma right-10 bottom-0  `}>
+        <div className="h-20 w-10 bg-red">
+          <MdDashboardCustomize onClick={showMenu} size={30} />
+        </div>
+      </div>
+      <div
+        className={`bg-gray-800 max-md:${
+          isMenuOpen ? "block w-1/2" : "hidden w-1/5"
+        } text-white h-screen  p-10 `}
+      >
+        <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
+
+        <nav className="text-xl mt-20">
+          <ul className="flex flex-col gap-5">
+            <li className="">
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/"
+              >
+                <div className="inline-flex items-center gap-3">
+                  <RxDashboard />
+                  Dashboard
+                </div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/products"
+              >
+                <div className="inline-flex gap-3 items-center">
+                  <FaShoppingCart />
+                  Products
+                </div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/categories"
+              >
+                <div className="inline-flex items-center gap-3">
+                  <MdCategory />
+                  Category
+                </div>
+              </NavLink>
+            </li>
+            {/* Add more navigation links as needed */}
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 };
 

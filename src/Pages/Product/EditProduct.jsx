@@ -15,7 +15,6 @@ import { useState } from "react";
 const EditProduct = () => {
   const { id } = useParams();
   const nav = useNavigate();
-  const [oldcategory, setCategory] = useState({});
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,7 +28,7 @@ const EditProduct = () => {
       "Please enter valid product description"
     ),
     regular_price: number().required().positive().integer(),
-    sale_price: number().required().positive().integer(),
+    sale_price: number().positive().integer(),
     product_image: mixed(),
     category_id: number().required("Please Enter Category Name"),
   });
@@ -88,7 +87,6 @@ const EditProduct = () => {
     getProduct();
   }, []);
 
-  console.log(oldcategory);
 
   async function getProduct() {
     try {
@@ -105,10 +103,9 @@ const EditProduct = () => {
       formik.setFieldValue("product_image_old", res.data.product.product_image);
       formik.setFieldValue(
         "category_id",
-        res.data.product.category.category_name
+        res.data.product.category.category_id
       );
-
-      setCategory(res.data.product.category);
+   
       // Set the old image URL
     } catch (error) {
       console.log(error);
@@ -194,14 +191,12 @@ const EditProduct = () => {
             <option value="" disabled>
               Select a category
             </option>
-            {/* <option value={oldcategory.id} selected>
-               Selected: {oldcategory.category_name}
-              </option> */}
+
             {filteredCategories.map((category) => (
               <option
                 key={category.id}
                 value={category.id}
-                selected={oldcategory.id == category.id}
+                selected={category.id === formik.values.category_id}
               >
                 {category.category_name}
               </option>
