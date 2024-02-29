@@ -9,6 +9,7 @@ import TableRow from "../../Components/Table Components/TableRow";
 import axios from "axios";
 import parse from "html-react-parser";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -31,10 +32,24 @@ const ProductList = () => {
     }
   }
 
-  console.log(products);
+  async function deleteRequest(valueId) {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3000/products/${valueId}`
+      );
+      console.log(res.data.message);
+      toast.success(res.data.message);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+console.log(products);
   return (
     <div>
+            <ToastContainer/>
+
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Product List</h2>
         <Button
@@ -81,7 +96,7 @@ const ProductList = () => {
           <TableHead>
             <tr>
               <th scope="col">Product name</th>
-              <th scope="col">Color</th>
+              <th scope="col">Descrption</th>
               <th scope="col">Category</th>
               <th scope="col">Price</th>
               <th scope="col">Action</th>
@@ -90,19 +105,22 @@ const ProductList = () => {
           <TableBody>
             {products.map((products) => (
               <TableRow>
-                <td>{products.product_title}</td>
-                <td>{parse(products.product_description)}</td>
-                <td>Laptop</td>
-                <td>$2999</td>
-                <td>
+                <td>{products.product_title.substring(0,30).concat("...")}</td>
+                <td>{parse(products.product_description.substring(0,60).concat("..."))}</td>
+                <td>{products.category.category_name}</td>
+                <td>{products.regular_price}</td>
+                <td className="flex gap-2 items-center">
                   <NavLink to={`/product/edit/${products.id}`}> 
-                    <a
+                    <Button
                       href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      className=" bg-green-500"
                     >
                       Edit
-                    </a>
+                    </Button>
                   </NavLink>
+                  <Button onClick={() => deleteRequest(products.id)} className=" bg-red-500  font-light text-center text-xs ">
+                    Delete
+                  </Button>
                 </td>
               </TableRow>
             ))}

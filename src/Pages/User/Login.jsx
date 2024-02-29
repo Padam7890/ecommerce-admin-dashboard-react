@@ -46,15 +46,20 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:3000/auth/login", values);
       console.log(res.data.message);
+
+
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
         dispatch(loginAction(true));
         navigation("/", { replace: true });
       }
+      else{
+        toast.error(res.data.message);
+      }
     } catch (error) {
         console.log(error);
-        toast.error(error.response.data.message);
+        toast.error(error);
     }
   }
 
