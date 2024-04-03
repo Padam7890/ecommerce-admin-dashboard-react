@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useFormik } from "formik";
-import { number, object, mixed, string } from "yup";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,86 +9,68 @@ import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import Ckeditiors from "../../Components/Ckeditiors";
-import { useState } from "react";
-import { useEffect } from "react";
+
+import { initialValues, validationScheme } from "./schema";
+import Select from "react-select";
+import formdata from "./formdata";
+import useCategories from "../../CustomHook/categoryList";
+import useSubcategories from "../../CustomHook/subcategory";
 
 const CreateProduct = () => {
-  const [categories, setCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-
-
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
+  const { categories} = useCategories();
+  const { subcategory} = useSubcategories();
   const nav = useNavigate();
-  const validationScheme = object({
-    product_title: string().required("Please enter valid product name"),
-    product_description: string().required(
-      "Please enter valid product description"
-    ),
-    regular_price: number().required().positive().integer(),
-    sale_price: number().positive().integer(),
-    product_image: mixed().required("Please enter valid image"),
-    category_id: number().required(),
-  });
 
   const formik = useFormik({
-    initialValues: {
-      product_title: "",
-      product_description: "",
-      regular_price: "",
-      sale_price: "",
-      product_image: "",
-      category_id: "",
-    },
+    initialValues: initialValues,
     validationSchema: validationScheme,
     onSubmit: (values) => {
-      console.log(values);
-      const formData = new FormData();
-      formData.append("product_title", values.product_title);
-      formData.append("product_description", values.product_description);
-      formData.append("regular_price", values.regular_price);
-      formData.append("sale_price", values.sale_price);
-      formData.append("product_image", values.product_image);
-      formData.append("category_id", values.category_id);
-
-       apisendata(formData);
+     const data = formdata(values);
+       apisendata(data);
     },
   });
 
-  async function apisendata(formdata) {
-    try {
-      const res = await axios.post("http://localhost:3000/products", formdata);
-      console.log(res.data.message);
+  async function apisendata(data) {
+    try { 
+      console.log(data);
+      const res = await axios.post("http://localhost:3000/products", data);
+      console.log(res);
       toast.success(res.data.message);
       nav("/products");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error);
     }
   }
 
-  async function getCategories() {
-    try {
-      const res = await axios.get("http://localhost:3000/categories");
-      const categoriesData = res.data.categories;
-      setCategories(categoriesData);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  const handleSearchChange = (event) => {
-    const searchTermValue = event.target.value;
-    setSearchTerm(searchTermValue);
-  };
-
-  const filteredCategories = categories.filter(category =>
-    category.category_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
 
+  console.log(categories);
+
+  const categoryoption = categories.map((category) => ({
+    value: category.id,
+    label: category.category_name,
+  }));
+
+  const subcategoryoption = subcategory
+    .filter((subcat) => subcat.category_id === formik.values.category_id)
+    .map((subcat) => ({
+      value: subcat.id,
+      label: subcat.subcategory_name,
+    }));
+
+  const stockoptions = [
+    {
+      value: "In Stock",
+      label: "In Stock",
+    },
+    {
+      value: "Out of Stock",
+      label: "Out of Stock",
+    },
+  ];
+
+  console.log(subcategoryoption);
 
   return (
     <>
@@ -120,7 +101,7 @@ const CreateProduct = () => {
             placeholder="Product Description"
           />
         </div>
-        <div class="mb-5">
+        <div class="mb-5 flex gap-4">
           <Input
             title="Regular Price"
             formik={formik}
@@ -132,57 +113,140 @@ const CreateProduct = () => {
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Regular Price"
           />
+          <Input
+            title="Sale Price"
+            formik={formik}
+            type="number"
+            id="sale_price"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.sale_price}
+            name="sale_price"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Regular Price"
+          />
         </div>
-        <div className=" my-5">
-      <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-        Select Category:
-      </label>
-      <input
-        type="text"
-        placeholder="Search categories..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-      />
-      <select
-        id="category_id"
-        name="category_id"
-        onChange={(e) => {
-          formik.handleChange(e);
-          formik.setFieldValue("category_id", parseInt(e.target.value, 10));
-        }}
-        value={formik.values.category_id}
-        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-      >
-        <option value="" disabled>Select a category</option>
-        {filteredCategories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.category_name}
-          </option>
-        ))}
-      </select>
-    </div>
 
-        <Input
-          title="Sale Price"
-          formik={formik}
-          type="number"
-          id="sale_price"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.sale_price}
-          name="sale_price"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Regular Price"
-        />
+        <div className=" my-5">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Select Category:
+          </label>
+          <Select
+            id="category_id"
+            name="category_id"
+            options={categoryoption}
+            onChange={(selectedOption) =>
+              formik.setFieldValue(
+                "category_id",
+                selectedOption ? selectedOption.value : ""
+              )
+            }
+            value={categoryoption.find(
+              (option) => option.value === formik.values.category_id
+            )}
+            onBlur={formik.handleBlur}
+            className="mt-2"
+          ></Select>
+        </div>
+
+        {subcategory.some(
+          (subcat) => subcat.category_id === formik.values.category_id
+        ) && (
+          <div className=" my-5">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Select Subcategories:
+            </label>
+
+            <Select
+              id="subcategory_id"
+              name="subcategory_id"
+              options={subcategoryoption}
+              onChange={(selectedOption) =>
+                formik.setFieldValue(
+                  "subcategory_id",
+                  selectedOption ? selectedOption.value : ""
+                )
+              }
+              value={subcategoryoption.find(
+                (option) => option.value === formik.values.subcategory_id
+              )}
+              className="mt-2"
+            ></Select>
+          </div>
+        )}
+        <div className="mb-4">
+          <Input
+            title="Product SKU"
+            formik={formik}
+            type="number"
+            id="product_sku"
+            name="product_sku"
+            onChange={formik.handleChange}
+            value={formik.values.product_sku}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+        <div className="my-5">
+          <label
+            htmlFor="stock_type"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Stock Type
+          </label>
+          <Select
+            name="stock_type"
+            id="stock_type"
+            options={stockoptions}
+            onChange={(stockoptions) => {
+              formik.setFieldValue("stock_type", stockoptions.value);
+            }}
+            value={stockoptions.find(
+              (option) => option.value === formik.values.stock_type
+            )}
+            className="mt-2"
+          >
+            <option value="" disabled>
+              Select a stock type
+            </option>
+
+            {["In Stock", "Out of Stock"].map((stock) => (
+              <option key={stock} value={stock}>
+                {stock}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className="my-5">
+          <Input
+            title="Product Tags"
+            formik={formik}
+            type="text"
+            id="product_tags"
+            name="product_tags"
+            onChange={formik.handleChange}
+            value={formik.values.product_tags}
+            onBlur={formik.handleBlur}
+          />
+        </div>
 
         <Input
           title="Product Image"
           formik={formik}
+          multiple
+          hidden
           class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           aria-describedby="product_image"
           onChange={(event) => {
-            formik.setFieldValue("product_image", event.currentTarget.files[0]);
+            formik.setFieldValue(
+              "product_image",
+              Array.from(event.target.files)
+            );
           }}
           onBlur={formik.handleBlur}
           id="product_image"
@@ -191,6 +255,70 @@ const CreateProduct = () => {
           accept="image/*"
           required
         />
+
+        <div className="my-5 flex gap-4">
+          <Input
+            title="Product Quantity"
+            formik={formik}
+            type="number"
+            id="product_quantity"
+            name="product_quantity"
+            onChange={formik.handleChange}
+            value={formik.values.product_quantity}
+            onBlur={formik.handleBlur}
+          />
+
+          <Input
+            title="Product Weight"
+            formik={formik}
+            type="number"
+            id="product_weight"
+            name="product_weight"
+            onChange={formik.handleChange}
+            value={formik.values.product_weight}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div className="my-5 flex gap-4"></div>
+
+        <div className="my-5 flex gap-4">
+          <Input
+            title="Product Color"
+            formik={formik}
+            type="text"
+            id="product_color"
+            name="product_color"
+            onChange={formik.handleChange}
+            value={formik.values.product_color}
+            onBlur={formik.handleBlur}
+          />
+
+          <Input
+            title="Product Size"
+            formik={formik}
+            type="number"
+            id="product_size"
+            name="product_size"
+            onChange={formik.handleChange}
+            value={formik.values.product_size}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div className="my-5 flex ">
+          <Input
+            title="Featured ?"
+            formik={formik}
+            type="checkbox"
+            id="is_featured"
+            name="is_featured"
+            onChange={formik.handleChange}
+            value={formik.values.is_featured}
+            onBlur={formik.handleBlur}
+            className="items-start"
+          />
+        </div>
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
           Submit

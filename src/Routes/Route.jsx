@@ -8,6 +8,11 @@ import EditProduct from "../Pages/Product/EditProduct";
 import CategoryList from "../Pages/Category/CategoryList";
 import CreateCategory from "../Pages/Category/CreateCategory";
 import EditCategory from "../Pages/Category/EditCategory";
+import Subcategory from "../Pages/Subcategory/Subcategory";
+import Createsubcat from "../Pages/Subcategory/Createsubcat";
+import Editsubcat from "../Pages/Subcategory/Editsubcat";
+import Bannerindex from "../Pages/Banner/Bannerindex";
+import Create from "../Pages/Banner/Create";
 
 
 const router = createBrowserRouter([
@@ -40,6 +45,27 @@ const router = createBrowserRouter([
         path: "/categories/edit/:id",
         element: <EditCategory />,
       },
+      {
+        path: "/subcategories",
+        element: <Subcategory />,
+      },
+      {
+        path: "/subcategories/create",
+        element: <Createsubcat />,
+      },
+      {
+        path: "/subcategories/edit/:id",
+        element: <Editsubcat />,
+      },
+      {
+        path: "/banner",
+        element: <Bannerindex />,
+      },
+
+      {
+        path: "/create/banner",
+        element: <Create />,
+      }
     ],
   },
 

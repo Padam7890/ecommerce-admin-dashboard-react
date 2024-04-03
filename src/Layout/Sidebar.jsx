@@ -8,6 +8,9 @@ import { RxDashboard } from "react-icons/rx";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import { MdDashboardCustomize } from "react-icons/md";
+import { TbCategoryPlus } from "react-icons/tb";
+import { PiFlagBannerFill } from "react-icons/pi";
+
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -32,14 +35,14 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className={`max-md:block  hidden  absolute ma right-10 bottom-0  `}>
+      <div className={`max-md:block  hidden  absolute  right-10 bottom-0  `}>
         <div className="h-20 w-10 bg-red">
           <MdDashboardCustomize onClick={showMenu} size={30} />
         </div>
       </div>
       <div
-        className={`bg-gray-800 max-md:${
-          isMenuOpen ? "block w-1/2" : "hidden w-1/5"
+        className={`bg-gray-800 hidden md:block  max-md:${
+          isMenuOpen ? "block w-1/2" : " hidden "
         } text-white h-screen  p-10 `}
       >
         <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
@@ -82,6 +85,37 @@ const Sidebar = () => {
                 <div className="inline-flex items-center gap-3">
                   <MdCategory />
                   Category
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/subcategories"
+              >
+                <div className="inline-flex items-center gap-3">
+                <TbCategoryPlus />
+
+                  Subcategory
+                </div>
+              </NavLink>
+            </li>
+
+            
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/banner"
+              >
+                <div className="inline-flex items-center gap-3">
+                <PiFlagBannerFill />
+
+                  Banner
                 </div>
               </NavLink>
             </li>

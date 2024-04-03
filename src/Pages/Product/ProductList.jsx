@@ -8,36 +8,33 @@ import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import parse from "html-react-parser";
+import useProductList from "../../CustomHook/productlist";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
+  const { products, isLoading, error,fetchProductList } = useProductList();
   const [checkany, setcheked] = useState();
   const nav = useNavigate();
   const handleButtonClick = () => {
     nav("/product/create");
   };
-
-  useEffect(() => {
-    apiHandleproductList();
-  }, []);
-
-  async function apiHandleproductList() {
-    try {
-      const fetch = await axios.get("http://localhost:3000/products");
-      const data = fetch.data.products;
-      setProducts(data);
-    } catch (error) {
-      console.log(error);
-    }
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   async function deleteRequest(valueId) {
     try {
+      console.log(valueId);
       const res = await axios.delete(
         `http://localhost:3000/products/${valueId}`
       );
       console.log(res.data.message);
       toast.success(res.data.message);
+      fetchProductList();
+
     } catch (error) {
       console.log(error);
     }

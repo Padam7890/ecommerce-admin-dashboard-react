@@ -5,10 +5,9 @@ import { Link, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className="flex">
-      
+    <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 overflow-y-auto">
         <Outlet />
       </div>
     </div>

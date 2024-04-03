@@ -1,66 +1,67 @@
-import React, { useEffect, useState } from "react";
-import Button from "../../Components/Button";
-import { Navigate, useNavigate } from "react-router-dom";
-
-import axios from "axios";
-
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
+import Button from "../../Components/Button";
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
-const CategoryList = () => {
-  const [category, setCategory] = useState([]);
+import { useEffect } from "react";
+import axios from "axios";
+
+
+const Subcategory = () => {
+  const [subcategory, setSubcategory] = useState([]);
+
   const nav = useNavigate();
 
   const handleButtonClick = () => {
-    nav("/categories/create");
+    nav("/subcategories/create");
   };
 
   useEffect(() => {
-    apiHandlecategoryList();
+    getsubcategories();
   }, []);
 
-  async function apiHandlecategoryList() {
+  async function getsubcategories() {
     try {
-      const fetch = await axios.get("http://localhost:3000/categories");
-      const data = fetch.data.categories;
-      setCategory(data);
+      const fetch = await axios.get("http://localhost:3000/subcategories");
+      const data = fetch.data.subcategory;
+      console.log(data);
+      setSubcategory(data);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function deleteCategory(category) {
+  async function deleteSubcategory(data) {
     try {
       const res = await axios.delete(
-        `http://localhost:3000/categories/${category}`
+        `http://localhost:3000/subcategories/${data}`
       );
-      console.log(res);
-      apiHandlecategoryList();
-      // setCategory(res.data);
-      toast.success("Category Deleted Successfully");
-      // nav("/categories");
+      console.log(res.data.message);
+      toast.success(res.data.message);
+      getsubcategories();
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+       toast.error(error.response.data.message);
     }
   }
 
-  console.log(category);
+  console.log(subcategory);
 
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer/>
       <div className=" flex items-center justify-between">
-        <h2 className="text-2xl font-semibold mb-4">Category List</h2>
+        <h2 className="text-2xl font-semibold mb-4">Sub Category List</h2>
         <Button
           type="button"
           onClick={handleButtonClick}
           className=" bg-green-700 hover:bg-green-900"
         >
-          Create Category
-        </Button>{" "}
+          Create Sub Category
+        </Button>
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -80,12 +81,13 @@ const CategoryList = () => {
                   </label>
                 </div>
               </th>
-              <th scope="col">Category name</th>
+              <th scope="col">Sub Category name</th>
+              <th scope="col">By Category</th>
               <th scope="col">Action</th>
             </tr>
           </Thead>
           <tbody>
-            {category.map((category) => (
+            {subcategory.map((subcat, index) => (
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                   <div class="flex items-center">
@@ -100,19 +102,22 @@ const CategoryList = () => {
                   </div>
                 </td>
 
-                <td className="px-4 py-4">{category.category_name}</td>
+                <td className="px-4 py-4"> {subcat.subcategory_name}</td>
+                <td className=" px-4 py-4 ">{subcat.category.category_name}</td>
                 <td className=" px-4 py-4 flex gap-2 items-center">
-                  <NavLink to={`/categories/edit/${category.id}`}>
+                  <NavLink to={`/subcategories/edit/${subcat.id}`}>
                     <Button
                       href="#"
                       className=" bg-green-500  font-light text-center text-xs"
                     >
                       Edit
                     </Button>
+
+
                   </NavLink>
 
                   <Button
-                    onClick={() => deleteCategory(category.id)}
+                    onClick={()=>deleteSubcategory(subcat.id)}
                     href="#"
                     className=" bg-red-500  font-light text-center text-xs"
                   >
@@ -129,4 +134,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default Subcategory;
