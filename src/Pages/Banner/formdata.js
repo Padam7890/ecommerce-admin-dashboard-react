@@ -1,6 +1,11 @@
 const bannerdata = (data)=>{
     const formdata = new FormData();
-    formdata.append("image", data.image);
+    formdata.append("title", data.title);
+    formdata.append("subtitle", data.subtitle);
+    formdata.append("url", data.url);
+    formdata.append("imageUrl", data.imageUrl);
+
+    return formdata;
 
 }
 

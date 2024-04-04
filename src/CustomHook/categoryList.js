@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import http from '../Utils/http';
 
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -9,7 +10,7 @@ const useCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/categories");
+        const response = await http.get("/categories");
         setCategories(response.data.categories);
         setIsLoading(false);
       } catch (error) {

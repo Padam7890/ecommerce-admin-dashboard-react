@@ -7,12 +7,22 @@ import Thead from '../../Components/Table/Thead'
 import { useNavigate } from "react-router-dom";
 
 import { NavLink } from 'react-router-dom'
+import useBannerList from '../../CustomHook/bannerList'
 
 const Bannerindex = () => {
+
+const {bannerList, isLoading, error, fetchBannerList} = useBannerList();
 
 const nav = useNavigate();
 const handleclick = () => {
     nav("/create/banner");
+}
+if (isLoading) {
+  return <div>Loading...</div>;
+}
+
+if (error) {
+  return <div>Error: {error.message}</div>;
 }
 
   return (
@@ -46,12 +56,13 @@ const handleclick = () => {
                 </label>
               </div>
             </th>
-            <th scope="col">Category name</th>
+            <th scope="col">Banner name</th>
             <th scope="col">Action</th>
           </tr>
         </Thead>
         <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          { bannerList.map((item, index)=> {
+              return (<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="w-4 p-4">
                 <div class="flex items-center">
                   <input
@@ -65,7 +76,7 @@ const handleclick = () => {
                 </div>
               </td>
 
-              <td className="px-4 py-4"></td>
+              <td className="px-4 py-4"> {item.title}</td>
               <td className=" px-4 py-4 flex gap-2 items-center">
                 <NavLink to={``}>
                   <Button
@@ -84,7 +95,10 @@ const handleclick = () => {
                   Delete
                 </Button>
               </td>
-            </tr>
+            </tr>)
+            })
+          }
+        
         </tbody>
       </Table>
     </div>

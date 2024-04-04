@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import http from '../Utils/http';
 
 const useProductList = () => {
   const [products, setProducts] = useState([]);
@@ -13,7 +14,7 @@ const useProductList = () => {
 
   const fetchProductList = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/products");
+      const response = await http.get("/products");
       setProducts(response.data.products);
       setIsLoading(false);
     } catch (error) {

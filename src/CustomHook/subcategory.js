@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import http from '../Utils/http';
 
 const useSubcategories = () => {
   const [subcategory, setSubcategories] = useState([]);
@@ -9,7 +10,7 @@ const useSubcategories = () => {
   useEffect(() => {
     const fetchSubcategories = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:3000/subcategories");
+        const response = await http.get("/subcategories");
         setSubcategories(response.data.subcategory);
         setIsLoadingSubcategories(false);
       } catch (error) {

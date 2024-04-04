@@ -6,6 +6,7 @@ import bannerdata from "./formdata";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
+import axios from "axios";
 
 const Create = () => {
   const nav = useNavigate();
@@ -14,10 +15,25 @@ const Create = () => {
     initialValues: bannerinitialValues,
     validationSchema: bannervalidation,
     onSubmit: (values) => {
+      console.log(values);
       const data = bannerdata(values);
-      //   apisendata(data);
+      apisendata(data);
     },
   });
+
+  async function apisendata(data) {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/banner",
+        data
+      );
+      console.log(res);
+    //   toast.success(res.data.message);
+      nav("/banners");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -49,7 +65,7 @@ const Create = () => {
           value={formik.values.subtitle}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder="Banner Title"
+          placeholder="Banner Subtitle"
         />
 
         <Input
@@ -61,7 +77,7 @@ const Create = () => {
           value={formik.values.url}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder="Banner Title"
+          placeholder="Banner url"
         />
 
         <Input
