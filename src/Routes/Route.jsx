@@ -13,6 +13,10 @@ import Createsubcat from "../Pages/Subcategory/Createsubcat";
 import Editsubcat from "../Pages/Subcategory/Editsubcat";
 import Bannerindex from "../Pages/Banner/Bannerindex";
 import Create from "../Pages/Banner/Create";
+import Edit from "../Pages/Banner/Edit";
+import LogoCreate from "../Pages/Logo/LogoCreate";
+import Logoindex from "../Pages/Logo/Logoindex";
+import Logoedit from "../Pages/Logo/LogoEdit";
 
 
 const router = createBrowserRouter([
@@ -65,7 +69,28 @@ const router = createBrowserRouter([
       {
         path: "/create/banner",
         element: <Create />,
+      },
+
+      {
+         path: "/logos",
+        element: <Logoindex />,
+      },
+
+      {
+        path: "/edit/banner/:id",
+        element: <Edit />,
+      },
+
+      {
+        path: "/create/logo",
+        element: <LogoCreate />,
+      },
+      
+      {
+        path: "/edit/logo/:id",
+        element: <Logoedit />,
       }
+
     ],
   },
 

@@ -6,27 +6,21 @@ import { ToastContainer, toast } from "react-toastify";
 import { mixed, object, string } from "yup";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import { categoryIntialValue, createCategoryValidation } from "./Schema";
+import saveCategory from "./Formdata";
 
 const CreateCategory = () => {
+
   const nav = useNavigate();
-  const validationScheme = object({
-    category_name: string().required("Please enter valid Category name"),
-    image: mixed().required("Image required")
-  });
 
   const formik = useFormik({
-    initialValues: {
-      category_name: "",
-      image: ""
-    },
-    validationSchema: validationScheme,
+    initialValues: categoryIntialValue,
+    validationSchema: createCategoryValidation,
     onSubmit: (values) => {
        console.log(values);
-       const formData = new FormData();
-       formData.append("category_name", values.category_name);
-       formData.append("image", values.image);
-      apisendata(formData);
-      console.log(formData);
+     const data =  saveCategory(values)
+      apisendata(data);
+      console.log(data);
     },
   });
 

@@ -3,10 +3,13 @@ const bannerdata = (data)=>{
     formdata.append("title", data.title);
     formdata.append("subtitle", data.subtitle);
     formdata.append("url", data.url);
-    formdata.append("imageUrl", data.imageUrl);
+    if (data.image) {
+        formdata.append("image" ,data.image); 
+    }
 
     return formdata;
-
 }
+
+
 
 export default bannerdata;

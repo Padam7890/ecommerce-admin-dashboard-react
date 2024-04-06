@@ -1,42 +1,42 @@
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
 import Input from "../../Components/Input";
-import { useFormik } from "formik";
-import { bannerinitialValues, bannervalidation, createbannervalidation } from "./schema";
-import bannerdata from "./formdata";
-import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
-import axios from "axios";
+import { useFormik } from "formik";
+import { createLogoValidation, logoInitialValues } from "./schema";
+import logocreate from "./formdata";
+import http from "../../Utils/http";
+import { useNavigate } from "react-router-dom";
 
-const Create = () => {
-  const nav = useNavigate();
+
+const LogoCreate = () => {
+
+    const nav = useNavigate();
 
   const formik = useFormik({
-    initialValues: bannerinitialValues,
-    validationSchema: createbannervalidation,
+    initialValues: logoInitialValues,
+    validationSchema: createLogoValidation,
     onSubmit: (values) => {
       console.log(values);
-      const data = bannerdata(values);
+      const data = logocreate(values);
       apisendata(data);
     },
   });
 
-  async function apisendata(data) {
+  const apisendata = async(data) => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/banner",
-        data
-      );
+      const res = await http.post("/logos", data);
       console.log(res);
-    //   toast.success(res.data.message);
-      nav("/banner");
+      toast.success(res.data.message);
+      nav("/logos");
     } catch (error) {
       console.log(error);
+      toast.error(error);
     }
-  }
+  };
 
   return (
-    <>
+    <div>
       <ToastContainer />
 
       <form
@@ -45,31 +45,19 @@ const Create = () => {
         onSubmit={formik.handleSubmit}
       >
         <Input
-          title="Banner Title"
+          title="Logo Name"
           type="text"
           formik={formik}
-          id="title"
-          name="title"
-          value={formik.values.title}
+          id="name"
+          name="name"
+          value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder="Banner Title"
+          placeholder="Logo Name"
         />
 
         <Input
-          title="Banner Subtitle"
-          type="text"
-          formik={formik}
-          id="subtitle"
-          name="subtitle"
-          value={formik.values.subtitle}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          placeholder="Banner Subtitle"
-        />
-
-        <Input
-          title="Banner Url"
+          title="Logo Url"
           type="text"
           formik={formik}
           id="url"
@@ -77,7 +65,7 @@ const Create = () => {
           value={formik.values.url}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder="Banner url"
+          placeholder="Logo Url"
         />
 
         <Input
@@ -96,8 +84,8 @@ const Create = () => {
           Submit
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 
-export default Create;
+export default LogoCreate;

@@ -14,6 +14,7 @@ import { loginAction } from "../../redux/slice/authSlice";
 
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import decodeToken from "../../Utils/decodetoken";
 
 const Login = () => {
     const navigation = useNavigate();
@@ -36,9 +37,18 @@ const Login = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      navigation("/"); 
+
+    const decodedToken = decodeToken(token);
+    if (decodedToken) {
+      dispatch(loginAction());
+      navigation("/");
     }
+    else {
+      navigation("/login");
+    }
+    // if (token) {
+    //   navigation("/"); 
+    // }
   }, [navigation]);
 
 

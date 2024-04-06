@@ -10,6 +10,9 @@ import { MdCategory } from "react-icons/md";
 import { MdDashboardCustomize } from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
 import { PiFlagBannerFill } from "react-icons/pi";
+import { PiMetaLogoLight } from "react-icons/pi";
+import decodeToken from "../Utils/decodetoken";
+
 
 
 const Sidebar = () => {
@@ -18,13 +21,24 @@ const Sidebar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    //check token valid or not 
+
+    const decodedToken = decodeToken(token);
+    if (decodedToken) {
       dispatch(loginAction());
       navigation("/");
-    } else {
+    }
+    else {
       navigation("/login");
     }
   }, []);
+
+  const tokenvalidation = (token)=>{
+      const decodetoken = decodeToken(token)
+  }
+
+
+
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -116,6 +130,20 @@ const Sidebar = () => {
                 <PiFlagBannerFill />
 
                   Banner
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/logos"
+              >
+                <div className="inline-flex items-center gap-3">
+                <PiMetaLogoLight />
+                  Logo
                 </div>
               </NavLink>
             </li>

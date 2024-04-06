@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import http from "../Utils/http"; // Assuming http is an axios instance
 
-const useBannerList = () => {
-   const [bannerList, setBannerList] = useState([]);
+const useLogosList = () => {
+   const [logosList, setLogosList] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
    const [error, setError] = useState(null);
 
    useEffect(() => {
-     fetchBannerList();
+     fetchLogosList();
    }, []);
 
-   const fetchBannerList = async () => {
+   const fetchLogosList = async () => {
      try {
-       const response = await http.get("/banner");
-       setBannerList(response.data.banner);
+       const response = await http.get("/logos");
+       setLogosList(response.data.logo);
        setIsLoading(false);
      } catch (error) {
        setError(error);
@@ -23,7 +23,7 @@ const useBannerList = () => {
 
    
    
-   return { bannerList, isLoading, error, fetchBannerList };
+   return {logosList, isLoading, error, fetchLogosList };
 }
 
-export default useBannerList;
+export default useLogosList;
