@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import http from '../Utils/http';
 
 const useProductList = () => {
@@ -11,6 +10,7 @@ const useProductList = () => {
   useEffect(() => {
     fetchProductList();
   }, []);
+
 
   const fetchProductList = async () => {
     try {
