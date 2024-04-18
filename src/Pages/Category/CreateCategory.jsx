@@ -33,7 +33,7 @@ const CreateCategory = () => {
       console.log(res);
       console.log(res.data.message);
       toast.success(res.data.message);
-      // nav("/categories");
+       nav("/categories");
     } catch (error) {
       console.log(error);
       toast.error(error);

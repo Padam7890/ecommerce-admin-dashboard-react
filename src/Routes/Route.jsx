@@ -17,6 +17,10 @@ import Edit from "../Pages/Banner/Edit";
 import LogoCreate from "../Pages/Logo/LogoCreate";
 import Logoindex from "../Pages/Logo/Logoindex";
 import Logoedit from "../Pages/Logo/LogoEdit";
+import Forgetpass from "../Pages/User/Forgetpass";
+import Resetpass from "../Pages/User/Resetpass";
+import AdCreate from "../Pages/Advertisment/AdCreate";
+import AdIndex from "../Pages/Advertisment/AdIndex";
 
 
 const router = createBrowserRouter([
@@ -89,7 +93,18 @@ const router = createBrowserRouter([
       {
         path: "/edit/logo/:id",
         element: <Logoedit />,
-      }
+      },
+
+      {
+        path: "/advertisment",
+        element: <AdIndex />,
+      },
+
+      {
+        path: "/advertisment/create",
+        element: <AdCreate />,
+      },
+     
 
     ],
   },
@@ -102,6 +117,18 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <SignUp />,
+  },
+  {
+    path: "/forgetpassword",
+    element: <Forgetpass />,
+  },
+  {
+    path: "/resetpass",
+    element: <Resetpass />,
+  },
+  {
+    path: "/auth/resetpassword/:token",
+    element: <Resetpass />,
   },
 
   

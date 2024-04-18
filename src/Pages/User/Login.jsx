@@ -57,7 +57,6 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/auth/login", values);
       console.log(res.data.message);
 
-
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
         toast.success(res.data.message);
@@ -69,7 +68,7 @@ const Login = () => {
       }
     } catch (error) {
         console.log(error);
-        toast.error(error);
+        toast.error(error.response.data);
     }
   }
 
@@ -131,12 +130,11 @@ const Login = () => {
                     </label>
                   </div>
                 </div>
-                <a
-                  href="#"
+                <NavLink to="/forgetpassword"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
-                </a>
+                </NavLink>
               </div>
               <Button
                 type="submit"

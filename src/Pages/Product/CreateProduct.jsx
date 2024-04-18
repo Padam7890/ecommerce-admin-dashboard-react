@@ -17,21 +17,21 @@ import useCategories from "../../CustomHook/categoryList";
 import useSubcategories from "../../CustomHook/subcategory";
 
 const CreateProduct = () => {
-  const { categories} = useCategories();
-  const { subcategory} = useSubcategories();
+  const { categories } = useCategories();
+  const { subcategory } = useSubcategories();
   const nav = useNavigate();
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationScheme,
     onSubmit: (values) => {
-     const data = formdata(values);
-       apisendata(data);
+      const data = formdata(values);
+      apisendata(data);
     },
   });
 
   async function apisendata(data) {
-    try { 
+    try {
       console.log(data);
       const res = await axios.post("http://localhost:3000/products", data);
       console.log(res);
@@ -42,8 +42,6 @@ const CreateProduct = () => {
       toast.error(error);
     }
   }
-
-
 
   console.log(categories);
 
@@ -306,7 +304,7 @@ const CreateProduct = () => {
           />
         </div>
 
-        <div className="my-5 flex ">
+        <div className="my-5 flex justify-between ">
           <Input
             title="Featured ?"
             formik={formik}
@@ -318,6 +316,13 @@ const CreateProduct = () => {
             onBlur={formik.handleBlur}
             className="items-start"
           />
+          <Input title="Hot Sale ?" 
+          formik={formik}
+          type="checkbox"
+          id="product_hot"
+          name="product_hot"
+          onChange={formik.handleChange}
+           />
         </div>
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">

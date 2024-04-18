@@ -10,6 +10,7 @@ const formdata = (values) => {
   formData.append("subcategory_id", values.subcategory_id);
   formData.append("product_tags", values.product_tags);
   formData.append("is_featured", values.is_featured);
+  formData.append("product_hot", values.product_hot);
   formData.append("product_sku", values.product_sku);
   formData.append("product_quantity", values.product_quantity);
   formData.append("product_weight", values.product_weight);

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import decodeToken from "../Utils/decodetoken";
+
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./../redux/slice/authSlice";
@@ -11,9 +14,10 @@ import { MdDashboardCustomize } from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
 import { PiFlagBannerFill } from "react-icons/pi";
 import { PiMetaLogoLight } from "react-icons/pi";
-import decodeToken from "../Utils/decodetoken";
+import { TbSpeakerphone } from "react-icons/tb";
 
 
+import { IoExit } from "react-icons/io5";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -21,30 +25,26 @@ const Sidebar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    //check token valid or not 
+    //check token valid or not
 
     const decodedToken = decodeToken(token);
     if (decodedToken) {
       dispatch(loginAction());
       navigation("/");
-    }
-    else {
+    } else {
       navigation("/login");
     }
   }, []);
-
-  const tokenvalidation = (token)=>{
-      const decodetoken = decodeToken(token)
-  }
-
-
-
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function showMenu() {
     setIsMenuOpen(!isMenuOpen);
     console.log(isMenuOpen);
+  }
+  function logout() {
+    localStorage.removeItem("token");
+    navigation("/login");
   }
 
   return (
@@ -61,7 +61,7 @@ const Sidebar = () => {
       >
         <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
 
-        <nav className="text-xl mt-20">
+        <nav className="text-xl mt-20 flex flex-col justify-between gap-20">
           <ul className="flex flex-col gap-5">
             <li className="">
               <NavLink
@@ -111,14 +111,12 @@ const Sidebar = () => {
                 to="/subcategories"
               >
                 <div className="inline-flex items-center gap-3">
-                <TbCategoryPlus />
-
+                  <TbCategoryPlus />
                   Subcategory
                 </div>
               </NavLink>
             </li>
 
-            
             <li>
               <NavLink
                 className={({ isActive }) => {
@@ -127,8 +125,7 @@ const Sidebar = () => {
                 to="/banner"
               >
                 <div className="inline-flex items-center gap-3">
-                <PiFlagBannerFill />
-
+                  <PiFlagBannerFill />
                   Banner
                 </div>
               </NavLink>
@@ -142,13 +139,35 @@ const Sidebar = () => {
                 to="/logos"
               >
                 <div className="inline-flex items-center gap-3">
-                <PiMetaLogoLight />
+                  <PiMetaLogoLight />
                   Logo
                 </div>
               </NavLink>
             </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/advertisment"
+              >
+                <div className="inline-flex items-center gap-3">
+                <TbSpeakerphone />
+                  Advertisment
+                </div>
+              </NavLink>
+            </li>
+
             {/* Add more navigation links as needed */}
           </ul>
+          <div
+            onClick={() => logout()}
+            className="inline-flex cursor-pointer items-center gap-3"
+          >
+            <IoExit />
+            Logout
+          </div>
         </nav>
       </div>
     </>

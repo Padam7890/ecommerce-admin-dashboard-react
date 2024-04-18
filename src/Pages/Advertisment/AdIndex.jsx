@@ -1,73 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { ToastContainer } from "react-toastify";
 import Button from "../../Components/Button";
-import { Navigate, useNavigate } from "react-router-dom";
-
-import axios from "axios";
-
-import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { NavLink, useNavigate } from "react-router-dom";
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
-const CategoryList = () => {
-  const [category, setCategory] = useState([]);
+import useAdvertisement from "../../CustomHook/advertisement";
+
+const AdIndex = () => {
   const nav = useNavigate();
 
-  const handleButtonClick = () => {
-    nav("/categories/create");
+  const {
+    adList,
+    isLoading,
+    error,
+    fetchadvertismentList,
+  } = useAdvertisement();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const handleclick = () => {
+    nav("/advertisment/create");
   };
 
-  useEffect(() => {
-    apiHandlecategoryList();
-  }, []);
-
-  async function apiHandlecategoryList() {
-    try {
-      const fetch = await axios.get("http://localhost:3000/categories");
-      const data = fetch.data.categories;
-      setCategory(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function deleteCategory(category) {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.delete(
-        `http://localhost:3000/categories/${category}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res);
-      apiHandlecategoryList();
-
-      toast.success(res.data.message);
-
-      // nav("/categories");
-    } catch (error) {
-      console.log(error.data.message);
-      toast.error(error.data.message);
-    }
-  }
-
-  console.log(category);
-
+  console.log(adList);
   return (
     <div>
       <ToastContainer />
       <div className=" flex items-center justify-between">
-        <h2 className="text-2xl font-semibold mb-4">Category List</h2>
+        <h2 className="text-2xl font-semibold mb-4">Advertisment List</h2>
         <Button
           type="button"
-          onClick={handleButtonClick}
+          onClick={handleclick}
           className=" bg-green-700 hover:bg-green-900"
         >
-          Create Category
-        </Button>{" "}
+          Create Advertisment
+        </Button>
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -87,12 +61,12 @@ const CategoryList = () => {
                   </label>
                 </div>
               </th>
-              <th scope="col">Category name</th>
+              <th scope="col">Advertisment name</th>
               <th scope="col">Action</th>
             </tr>
           </Thead>
           <tbody>
-            {category.map((category) => (
+            {adList.map((ad, index) => (
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                   <div class="flex items-center">
@@ -107,9 +81,9 @@ const CategoryList = () => {
                   </div>
                 </td>
 
-                <td className="px-4 py-4">{category.category_name}</td>
+                <td className="px-4 py-4"> {ad.Title}</td>
                 <td className=" px-4 py-4 flex gap-2 items-center">
-                  <NavLink to={`/categories/edit/${category.id}`}>
+                  <NavLink to={""}>
                     <Button
                       href="#"
                       className=" bg-green-500  font-light text-center text-xs"
@@ -119,7 +93,7 @@ const CategoryList = () => {
                   </NavLink>
 
                   <Button
-                    onClick={() => deleteCategory(category.id)}
+                    onClick={""}
                     href="#"
                     className=" bg-red-500  font-light text-center text-xs"
                   >
@@ -128,7 +102,6 @@ const CategoryList = () => {
                 </td>
               </tr>
             ))}
-            ;
           </tbody>
         </Table>
       </div>
@@ -136,4 +109,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default AdIndex;
