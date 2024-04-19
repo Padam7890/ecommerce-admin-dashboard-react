@@ -42,10 +42,7 @@ const EditProduct = () => {
 
   async function apisendata(data) {
     try {
-      const res = await axios.put(
-        `http://localhost:3000/products/${id}`,
-        data
-      );
+      const res = await axios.put(`http://localhost:3000/products/${id}`, data);
       console.log(res);
       toast.success(res.data.message);
       nav("/products");
@@ -71,6 +68,7 @@ const EditProduct = () => {
       formik.setFieldValue("subcategory_id", productdet.subcategory_id);
       formik.setFieldValue("product_tags", productdet.product_tags);
       formik.setFieldValue("is_featured", productdet.is_featured);
+      formik.setFieldValue("product_hot", productdet.product_hot);
       formik.setFieldValue("product_sku", productdet.product_sku);
       formik.setFieldValue("product_quantity", productdet.product_quantity);
       formik.setFieldValue("product_weight", productdet.product_weight);
@@ -88,11 +86,9 @@ const EditProduct = () => {
         formik.setFieldValue("product_image", images);
       }
       if (productdet.ProductTag && productdet.ProductTag.length > 0) {
-        const product_tags = productdet.ProductTag.map(tag => tag.tags.name);
+        const product_tags = productdet.ProductTag.map((tag) => tag.tags.name);
         formik.setFieldValue("product_tags", product_tags.toString());
-    }
-    
-    
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -326,7 +322,7 @@ const EditProduct = () => {
           />
         </div>
 
-        <div className="my-5 flex ">
+        <div className="my-5 flex justify-between ">
           <Input
             title="Featured ?"
             formik={formik}
@@ -338,6 +334,18 @@ const EditProduct = () => {
             onBlur={formik.handleBlur}
             className="items-start"
             checked={formik.values.is_featured}
+          />
+          <Input
+            title="Hot Sale ?"
+            formik={formik}
+            type="checkbox"
+            id="product_hot"
+            name="product_hot"
+            onChange={formik.handleChange}
+            value={formik.values.product_hot}
+            onBlur={formik.handleBlur}
+            className="items-start"
+            checked={formik.values.product_hot}
           />
         </div>
 

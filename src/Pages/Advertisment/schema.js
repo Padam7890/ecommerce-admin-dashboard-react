@@ -6,8 +6,15 @@ const createadvalidation = object({
     startTime : date(),
     endTime : date(),
     description : string(),
-    url : mixed().required('Image required'), //image
-  
+    url : mixed().required('Image required'), 
+})
+
+const updateadvalidation = object({
+    Title: string().required('title required'),
+    subtitle: string().required('subtitle required'),
+    startTime : date(),
+    endTime : date(),
+    description : string(),
 })
 
 const initialadvalue = {
@@ -19,5 +26,5 @@ const initialadvalue = {
     url: "",
 }
 
-export  {createadvalidation,initialadvalue};
+export  {createadvalidation, initialadvalue, updateadvalidation};
 

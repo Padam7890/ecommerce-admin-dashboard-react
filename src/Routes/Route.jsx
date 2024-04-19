@@ -21,7 +21,11 @@ import Forgetpass from "../Pages/User/Forgetpass";
 import Resetpass from "../Pages/User/Resetpass";
 import AdCreate from "../Pages/Advertisment/AdCreate";
 import AdIndex from "../Pages/Advertisment/AdIndex";
-
+import Adedit from "../Pages/Advertisment/Adedit";
+import Menucreate from "../Pages/Menu/Menucreate";
+import Menuindex from "../Pages/Menu/Menuindex";
+import Menuedit from "../Pages/Menu/Menuedit";
+import OrderIndex from "../Pages/Order/OrderIndex";
 
 const router = createBrowserRouter([
   {
@@ -76,7 +80,7 @@ const router = createBrowserRouter([
       },
 
       {
-         path: "/logos",
+        path: "/logos",
         element: <Logoindex />,
       },
 
@@ -89,7 +93,7 @@ const router = createBrowserRouter([
         path: "/create/logo",
         element: <LogoCreate />,
       },
-      
+
       {
         path: "/edit/logo/:id",
         element: <Logoedit />,
@@ -104,11 +108,30 @@ const router = createBrowserRouter([
         path: "/advertisment/create",
         element: <AdCreate />,
       },
-     
 
+      {
+        path: "/advertisment/edit/:id",
+        element: <Adedit />,
+      },
+      {
+        path: "/create/menu",
+        element: <Menucreate />,
+      },
+
+      {
+        path: "/menu",
+        element: <Menuindex />,
+      },
+      {
+        path: "/menu/edit/:id",
+        element: <Menuedit />,
+      },
+      {
+        path: "/order",
+        element: <OrderIndex />,
+      },
     ],
   },
-
 
   {
     path: "/login",
@@ -130,8 +153,6 @@ const router = createBrowserRouter([
     path: "/auth/resetpassword/:token",
     element: <Resetpass />,
   },
-
-  
 ]);
 
 export { router };

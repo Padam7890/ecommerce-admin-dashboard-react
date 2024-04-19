@@ -322,6 +322,9 @@ const CreateProduct = () => {
           id="product_hot"
           name="product_hot"
           onChange={formik.handleChange}
+          value={formik.values.product_hot}
+          onBlur={formik.handleBlur}
+          className="items-start"
            />
         </div>
 

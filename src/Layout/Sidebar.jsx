@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import decodeToken from "../Utils/decodetoken";
 
-
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./../redux/slice/authSlice";
@@ -15,6 +14,11 @@ import { TbCategoryPlus } from "react-icons/tb";
 import { PiFlagBannerFill } from "react-icons/pi";
 import { PiMetaLogoLight } from "react-icons/pi";
 import { TbSpeakerphone } from "react-icons/tb";
+import { BsMenuButtonWideFill } from "react-icons/bs";
+import { MdGroups2 } from "react-icons/md";
+import { FaUserCog } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
+
 
 
 import { IoExit } from "react-icons/io5";
@@ -59,7 +63,7 @@ const Sidebar = () => {
           isMenuOpen ? "block w-1/2" : " hidden "
         } text-white h-screen  p-10 `}
       >
-        <h1 className="text-2xl font-semibold mb-4">Admin Dashboard</h1>
+        <h1 className="text-2xl font-semibold mb-4">Padam CMS</h1>
 
         <nav className="text-xl mt-20 flex flex-col justify-between gap-20">
           <ul className="flex flex-col gap-5">
@@ -126,7 +130,7 @@ const Sidebar = () => {
               >
                 <div className="inline-flex items-center gap-3">
                   <PiFlagBannerFill />
-                  Banner
+                  Banners
                 </div>
               </NavLink>
             </li>
@@ -140,7 +144,7 @@ const Sidebar = () => {
               >
                 <div className="inline-flex items-center gap-3">
                   <PiMetaLogoLight />
-                  Logo
+                  Logos
                 </div>
               </NavLink>
             </li>
@@ -155,6 +159,69 @@ const Sidebar = () => {
                 <div className="inline-flex items-center gap-3">
                 <TbSpeakerphone />
                   Advertisment
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/menu"
+              >
+                <div className="inline-flex items-center gap-3">
+                <BsMenuButtonWideFill />
+
+                  Menus
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/order"
+              >
+                <div className="inline-flex items-center gap-3">
+                <FaCartShopping />
+
+                  Orders
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/cilent"
+              >
+                <div className="inline-flex items-center gap-3">
+                <MdGroups2 />
+
+
+                  Cilents
+                </div>
+              </NavLink>
+            </li>
+
+            
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/"
+              >
+                <div className="inline-flex items-center gap-3">
+                <FaUserCog />
+
+
+                  User Management
                 </div>
               </NavLink>
             </li>
