@@ -86,20 +86,7 @@ const OrderIndex = () => {
                 <td className="px-4 py-4"> { Date(item.createdAt)}</td>
                 <td className="px-4 py-4"> ${item.totalPrice}</td>
                 <td className="px-4 py-4">  { item.billingAddress.firstName +" "+ item.billingAddress.lastName}</td>
-
-
-
-
                 <td className=" px-4 py-4 flex gap-2 items-center">
-                  {/* <NavLink to={``}>
-                    <Button
-                      href="#"
-                      className=" bg-green-500  font-light text-center text-xs"
-                    >
-                      Edit
-                    </Button>
-                  </NavLink> */}
-
                   <Button
                     onClick={()=> deleteOrder(item.id)}
                     href="#"

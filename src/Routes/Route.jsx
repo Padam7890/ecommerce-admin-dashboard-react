@@ -130,6 +130,10 @@ const router = createBrowserRouter([
         path: "/order",
         element: <OrderIndex />,
       },
+      {
+        path: "/client",
+        element: <OrderIndex />,
+      },
     ],
   },
 
