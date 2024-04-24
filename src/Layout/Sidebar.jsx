@@ -198,7 +198,7 @@ const Sidebar = () => {
                 className={({ isActive }) => {
                   return isActive ? "text-green-300" : "";
                 }}
-                to="/cilent"
+                to="/client"
               >
                 <div className="inline-flex items-center gap-3">
                 <MdGroups2 />

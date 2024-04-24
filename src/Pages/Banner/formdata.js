@@ -6,6 +6,8 @@ const bannerdata = (data)=>{
     if (data.image) {
         formdata.append("image" ,data.image); 
     }
+    //imageUrl
+    formdata.append("imageUrl", data.imageUrl);
 
     return formdata;
 }

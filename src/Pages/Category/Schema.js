@@ -8,6 +8,7 @@ const createCategoryValidation =  object ({
 
 const updateCategoryValidation = object({
     category_name: string().required("Please enter valid Category name"),
+    imageUrl: string(),
 })
 
 const categoryIntialValue = {

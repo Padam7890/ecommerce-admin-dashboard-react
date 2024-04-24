@@ -26,6 +26,8 @@ import Menucreate from "../Pages/Menu/Menucreate";
 import Menuindex from "../Pages/Menu/Menuindex";
 import Menuedit from "../Pages/Menu/Menuedit";
 import OrderIndex from "../Pages/Order/OrderIndex";
+import CreateCilent from "../Pages/Cilent/CreateCilent";
+import IndexCilent from "../Pages/Cilent/IndexCilent";
 
 const router = createBrowserRouter([
   {
@@ -131,8 +133,12 @@ const router = createBrowserRouter([
         element: <OrderIndex />,
       },
       {
-        path: "/client",
-        element: <OrderIndex />,
+         path: "/client",
+        element: <IndexCilent />,
+      },
+      {
+        path: "/create/cilent",
+        element: <CreateCilent />,
       },
     ],
   },

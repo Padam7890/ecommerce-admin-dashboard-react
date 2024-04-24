@@ -6,17 +6,14 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { useEffect } from "react";
 import axios from "axios";
+import { createsubcatvalidationScheme } from "./Schema";
 
 const Createsubcat = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const nav = useNavigate();
-  const validationScheme = object({
-    subcategory_name: string().required("Please enter valid Sub Category name"),
-    category_id: number().required(),
-    image:mixed().required("Please enter Image")
-  });
+
 
   const formik = useFormik({
     initialValues: {
@@ -24,7 +21,7 @@ const Createsubcat = () => {
       category_id: "",
       image:""
     },
-    validationSchema: validationScheme,
+    validationSchema: createsubcatvalidationScheme,
     onSubmit: (values) => {
       console.log(values);
       const formData = new FormData();

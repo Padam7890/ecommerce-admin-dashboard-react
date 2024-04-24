@@ -6,6 +6,7 @@ import { mixed, number, object, string } from "yup";
 import { useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
+import { updatesubcatvalidationScheme } from "./Schema";
 
 const Editsubcat = () => {
   const [categories, setCategories] = useState([]);
@@ -23,16 +24,21 @@ const Editsubcat = () => {
     initialValues: {
       subcategory_name: "",
       category_id: "",
-      image:""
+      image:"",
+      imageUrl: "",
     },
-    validationSchema: validationScheme,
+    validationSchema: updatesubcatvalidationScheme,
     onSubmit: (values) => {
       console.log(values);
       const formData = new FormData();
       formData.append("subcategory_name", values.subcategory_name);
       formData.append("category_id", values.category_id);
-      formData.append("image", values.image);
-      apiupdatedata(formData);
+      if (values.image) {
+        formData.append("image", values.image);
+      }
+      formData.append("imageUrl", values.imageUrl);
+
+       apiupdatedata(formData);
     },
   });
 
@@ -73,9 +79,7 @@ const Editsubcat = () => {
        console.log(res.data.subcat);
      formik.setFieldValue("subcategory_name", res.data.subcat.subcategory_name);
      formik.setFieldValue("category_id", res.data.subcat.category_id);
-     formik.setFieldValue("image", res.data.subcat.image.url);
-     console.log(res.data.subcat.image);
-     
+     formik.setFieldValue("imageUrl", res.data.subcat.imageUrl);     
 
      } catch (error) {
        console.log(error);
@@ -162,7 +166,7 @@ const Editsubcat = () => {
          accept="image/*"/>
 
          <img
-            src={`http://localhost:3000${formik.values.image}`}
+            src={`http://localhost:3000${formik.values.imageUrl}`}
             alt="product image"
             className="w-full"
           />

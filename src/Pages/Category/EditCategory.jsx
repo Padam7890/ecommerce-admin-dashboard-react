@@ -6,14 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { mixed, object, string } from "yup";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
-import { categoryIntialValue, createCategoryValidation } from "./Schema";
+import { categoryIntialValue, createCategoryValidation, updateCategoryValidation } from "./Schema";
 import saveCategory from "./Formdata";
 
 const EditCategory = () => {
   const nav = useNavigate();
   const { id } = useParams();
-  const [image, setImages] = useState()
-
 
   useEffect(() => {
     getCategories();
@@ -21,7 +19,7 @@ const EditCategory = () => {
 
   const formik = useFormik({
     initialValues: categoryIntialValue,
-    validationSchema: createCategoryValidation,
+    validationSchema: updateCategoryValidation,
     onSubmit: (values) => {
        console.log(values);
      const data =  saveCategory(values)
@@ -48,16 +46,12 @@ const EditCategory = () => {
       const res = await axios.get(`http://localhost:3000/categories/${id}`);
       console.log(res.data);
       formik.setFieldValue("category_name", res.data.category.category_name);
-      formik.setFieldValue("image", res.data.category.image.url);
-      setImages(res.data.category.image.url)
+      formik.setFieldValue("imageUrl", res.data.category.imageUrl);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
   }
-
-
-
 
 
 
@@ -94,9 +88,9 @@ const EditCategory = () => {
          accept="image/*"/>
          
          {
-          formik.values.image  &&
+          formik.values.imageUrl  &&
           <img
-          src={`http://localhost:3000${image}`}
+          src={`http://localhost:3000${formik.values.imageUrl}`}
           alt="product image"
           className="w-full"
         />

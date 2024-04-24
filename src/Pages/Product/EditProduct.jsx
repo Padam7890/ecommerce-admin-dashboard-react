@@ -81,7 +81,7 @@ const EditProduct = () => {
       if (productdet.images && productdet.images.length > 0) {
         const images = productdet.images.map((image) => ({
           id: image.id,
-          url: image.url,
+          url: image.imageUrl,
         }));
         formik.setFieldValue("product_image", images);
       }
