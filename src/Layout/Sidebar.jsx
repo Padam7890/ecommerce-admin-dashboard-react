@@ -18,6 +18,7 @@ import { BsMenuButtonWideFill } from "react-icons/bs";
 import { MdGroups2 } from "react-icons/md";
 import { FaUserCog } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import { IoIosSettings } from "react-icons/io";
 
 
 
@@ -63,7 +64,7 @@ const Sidebar = () => {
           isMenuOpen ? "block w-1/2" : " hidden "
         } text-white h-screen  p-10 `}
       >
-        <h1 className="text-2xl font-semibold mb-4">Padam CMS</h1>
+        <h1 className="text-2xl font-semibold mb-4">PDT CMS</h1>
 
         <nav className="text-xl mt-20 flex flex-col justify-between gap-20">
           <ul className="flex flex-col gap-5">
@@ -215,13 +216,29 @@ const Sidebar = () => {
                 className={({ isActive }) => {
                   return isActive ? "text-green-300" : "";
                 }}
-                to="/"
+                to="/users"
               >
                 <div className="inline-flex items-center gap-3">
                 <FaUserCog />
 
 
                   User Management
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                className={({ isActive }) => {
+                  return isActive ? "text-green-300" : "";
+                }}
+                to="/profile"
+              >
+                <div className="inline-flex items-center gap-3">
+                <IoIosSettings />
+
+
+                  Profile
                 </div>
               </NavLink>
             </li>

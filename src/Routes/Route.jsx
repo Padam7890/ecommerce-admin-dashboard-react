@@ -28,6 +28,9 @@ import Menuedit from "../Pages/Menu/Menuedit";
 import OrderIndex from "../Pages/Order/OrderIndex";
 import CreateCilent from "../Pages/Cilent/CreateCilent";
 import IndexCilent from "../Pages/Cilent/IndexCilent";
+import Users from "../Pages/User/Users";
+import Profile from "../Pages/User/Profile";
+import Changepass from "../Pages/User/Changepass";
 
 const router = createBrowserRouter([
   {
@@ -140,6 +143,16 @@ const router = createBrowserRouter([
         path: "/create/cilent",
         element: <CreateCilent />,
       },
+      {
+        path: "/users",
+        element: <Users />,
+      },{
+        path: "/profile",
+        element: <Profile />,
+      },{
+        path: "/change_password",
+        element: <Changepass />,
+      }
     ],
   },
 

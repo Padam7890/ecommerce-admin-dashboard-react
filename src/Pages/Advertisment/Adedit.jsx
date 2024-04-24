@@ -19,7 +19,7 @@ const Adedit = () => {
     onSubmit: (values) => {
       console.log(values);
       //   const data = addata(values);
-       //apisenddata(data);
+      //apisenddata(data);
     },
   });
 
@@ -43,7 +43,10 @@ const Adedit = () => {
       const result = res.data.advertisment;
       formik.setFieldValue("Title", result.Title);
       formik.setFieldValue("subtitle", result.subtitle);
-      formik.setFieldValue("startTime", result.startTime);
+      formik.setFieldValue(
+        "startTime",
+        new Date(result.startTime).toISOString()
+      );
       formik.setFieldValue("endTime", result.endTime);
       formik.setFieldValue("description", result.description);
       formik.setFieldValue("url", result.url);
@@ -53,7 +56,7 @@ const Adedit = () => {
     }
   };
 
-  
+  console.log(formik?.values?.startTime);
 
   return (
     <div>
