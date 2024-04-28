@@ -206,7 +206,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {role[0]?.name === "admin" && (
+            {role && role[0]?.name === "admin" && (
               <div>
                 <li>
                   <NavLink
