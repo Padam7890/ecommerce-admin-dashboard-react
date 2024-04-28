@@ -35,7 +35,7 @@ const Login = () => {
 
   async function loginUser(values) {
     try {
-      const res = await http.post("http://localhost:3000/auth/login", values);
+      const res = await http.post("auth/login", values);
       const { accessToken, refreshToken } = res.data;
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
