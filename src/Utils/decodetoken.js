@@ -1,7 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 
+// Define the decodeToken function
 const decodeToken = (token) => {
   try {
+    // Use jwtDecode to decode the token
     const decodedToken = jwtDecode(token);
     const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
 
@@ -14,9 +16,9 @@ const decodeToken = (token) => {
       return null;
     }
   } catch (error) {
+    // Handle token decoding error
     console.error('Error decoding token:', error);
     return null;
   }
 };
-
 export default decodeToken;

@@ -31,6 +31,7 @@ import IndexCilent from "../Pages/Cilent/IndexCilent";
 import Users from "../Pages/User/Users";
 import Profile from "../Pages/User/Profile";
 import Changepass from "../Pages/User/Changepass";
+import CreateUser from "../Pages/User/CreateUser";
 
 const router = createBrowserRouter([
   {
@@ -152,6 +153,10 @@ const router = createBrowserRouter([
       },{
         path: "/change_password",
         element: <Changepass />,
+      },
+      {
+        path: "/addNewUser",
+        element: <CreateUser />,
       }
     ],
   },

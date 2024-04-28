@@ -5,11 +5,13 @@ const addata = (data)=>{
     formdata.append("startTime", data.startTime);
     formdata.append("endTime", data.endTime);
     formdata.append("description", data.description);
-    formdata.append("url" ,data.url);
     
     if (data.image) {
-        formdata.append("image", values.image);
+        formdata.append("image" , data.image); 
     }
+    //imageUrl
+    formdata.append("imageUrl" ,data.imageUrl);
+
     return formdata;
 }
 

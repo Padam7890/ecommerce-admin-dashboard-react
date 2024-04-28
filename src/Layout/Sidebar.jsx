@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./../redux/slice/authSlice";
 import { RxDashboard } from "react-icons/rx";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUserCog } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 import { MdDashboardCustomize } from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
@@ -16,30 +16,16 @@ import { PiMetaLogoLight } from "react-icons/pi";
 import { TbSpeakerphone } from "react-icons/tb";
 import { BsMenuButtonWideFill } from "react-icons/bs";
 import { MdGroups2 } from "react-icons/md";
-import { FaUserCog } from "react-icons/fa";
+
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 
-
-
 import { IoExit } from "react-icons/io5";
+import http from "../Utils/http";
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    //check token valid or not
-
-    const decodedToken = decodeToken(token);
-    if (decodedToken) {
-      dispatch(loginAction());
-      navigation("/");
-    } else {
-      navigation("/login");
-    }
-  }, []);
+  const [role, setRoles] = useState([]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -48,9 +34,23 @@ const Sidebar = () => {
     console.log(isMenuOpen);
   }
   function logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     navigation("/login");
   }
+
+  useEffect(() => {
+    fetchuserinfo();
+  }, []);
+
+  const fetchuserinfo = async () => {
+    try {
+      const res = await http.get("/auth/profile");
+      setRoles(res.data.user.roles);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -158,7 +158,7 @@ const Sidebar = () => {
                 to="/advertisment"
               >
                 <div className="inline-flex items-center gap-3">
-                <TbSpeakerphone />
+                  <TbSpeakerphone />
                   Advertisment
                 </div>
               </NavLink>
@@ -172,8 +172,7 @@ const Sidebar = () => {
                 to="/menu"
               >
                 <div className="inline-flex items-center gap-3">
-                <BsMenuButtonWideFill />
-
+                  <BsMenuButtonWideFill />
                   Menus
                 </div>
               </NavLink>
@@ -187,8 +186,7 @@ const Sidebar = () => {
                 to="/order"
               >
                 <div className="inline-flex items-center gap-3">
-                <FaCartShopping />
-
+                  <FaCartShopping />
                   Orders
                 </div>
               </NavLink>
@@ -202,30 +200,30 @@ const Sidebar = () => {
                 to="/client"
               >
                 <div className="inline-flex items-center gap-3">
-                <MdGroups2 />
-
-
+                  <MdGroups2 />
                   Cilents
                 </div>
               </NavLink>
             </li>
 
-            
-            <li>
-              <NavLink
-                className={({ isActive }) => {
-                  return isActive ? "text-green-300" : "";
-                }}
-                to="/users"
-              >
-                <div className="inline-flex items-center gap-3">
-                <FaUserCog />
+            {role[0]?.name === "admin" && (
+              <div>
+                <li>
+                  <NavLink
+                    className={({ isActive }) => {
+                      return isActive ? "text-green-300" : "";
+                    }}
+                    to="/users"
+                  >
+                    <div className="inline-flex items-center gap-3">
+                      <FaUserCog />
+                      User Management
+                    </div>
+                  </NavLink>
+                </li>
 
-
-                  User Management
-                </div>
-              </NavLink>
-            </li>
+              </div>
+            )}
 
             <li>
               <NavLink
@@ -235,9 +233,7 @@ const Sidebar = () => {
                 to="/profile"
               >
                 <div className="inline-flex items-center gap-3">
-                <IoIosSettings />
-
-
+                  <IoIosSettings />
                   Profile
                 </div>
               </NavLink>

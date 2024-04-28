@@ -32,11 +32,7 @@ const Changepass = () => {
 
   const apisendata = async (values) => {
     try {
-      const res = await http.post("/auth/passwordChanged", values, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await http.post("/auth/passwordChanged", values)
       console.log(res.data.message);
       toast.success(res.data.message);
       nav("/");

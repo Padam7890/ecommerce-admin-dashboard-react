@@ -15,6 +15,7 @@ import Select from "react-select";
 import formdata from "./formdata";
 import useCategories from "../../CustomHook/categoryList";
 import useSubcategories from "../../CustomHook/subcategory";
+import http from "../../Utils/http";
 
 const CreateProduct = () => {
   const { categories } = useCategories();
@@ -33,7 +34,7 @@ const CreateProduct = () => {
   async function apisendata(data) {
     try {
       console.log(data);
-      const res = await axios.post("http://localhost:3000/products", data);
+      const res = await http.post("/products", data);
       console.log(res);
       toast.success(res.data.message);
       nav("/products");
@@ -90,13 +91,14 @@ const CreateProduct = () => {
           onBlur={formik.handleBlur}
           placeholder="Product Title"
         />
-        <div className="mb-5">
+        <div className="mb-5 w-full">
           <Ckeditiors
             title="Product Details"
             formik={formik}
             name="product_description"
             className="h-[300px]"
             placeholder="Product Description"
+            
           />
         </div>
         <div class="mb-5 flex gap-4">

@@ -18,8 +18,8 @@ const Adedit = () => {
     validationSchema: updateadvalidation,
     onSubmit: (values) => {
       console.log(values);
-      //   const data = addata(values);
-      //apisenddata(data);
+        const data = addata(values);
+      apisenddata(data);
     },
   });
 
@@ -27,7 +27,7 @@ const Adedit = () => {
     try {
       const res = await http.put(`/advertisement/${id}`, data);
       console.log(res);
-      nav("/advertisement");
+      nav("/advertisment");
     } catch (error) {
       console.log(error);
     }
@@ -37,19 +37,22 @@ const Adedit = () => {
     getAd();
   }, []);
 
+  const formatDateForInput = (isoString) => {
+    const date = new Date(isoString);
+    const formattedDate = date.toISOString().slice(0, 16);
+    return formattedDate;
+  };
+
   const getAd = async () => {
     try {
       const res = await http.get(`advertisement/${id}`);
       const result = res.data.advertisment;
       formik.setFieldValue("Title", result.Title);
       formik.setFieldValue("subtitle", result.subtitle);
-      formik.setFieldValue(
-        "startTime",
-        new Date(result.startTime).toISOString()
-      );
-      formik.setFieldValue("endTime", result.endTime);
+      formik.setFieldValue("startTime", formatDateForInput(result.startTime));
+      formik.setFieldValue("endTime", formatDateForInput(result.endTime));
       formik.setFieldValue("description", result.description);
-      formik.setFieldValue("url", result.url);
+      formik.setFieldValue("imageUrl", result.url);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -134,7 +137,7 @@ const Adedit = () => {
           Submit
         </Button>
         <img
-          src={`http://localhost:3000${formik.values.url}`}
+          src={`http://localhost:3000${formik.values.imageUrl}`}
           alt="product image"
           className="w-[70%]"
         />

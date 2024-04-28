@@ -23,7 +23,6 @@ const initialadvalue = {
     startTime: "",
     endTime: "",
     description: "",
-    url: "",
 }
 
 export  {createadvalidation, initialadvalue, updateadvalidation};

@@ -1,52 +1,58 @@
-import React, { useEffect } from "react";
-import { useFormik } from "formik";
-import {object, string, ref } from "yup";
-import axios from "axios";
-import { NavLink } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { useNavigate } from "react-router-dom";
-
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import { userInitialValue, userValidation } from "./scheme/userscheme";
+import { useFormik } from "formik";
+import http from "../../Utils/http";
+import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
-  const navigation = useNavigate();
-  const validationScheme = object({
-    name: string().required("Please enter your name"),
-    email: string().required("Please enter a email"),
-    password: string().required("Please enter a password")
-    .min(8, "Password must be at least 8 characters long"),
-    confirm_password: string().required("Please re-type your password")
-   .oneOf([ref("password"), null], "Passwords must match"),
-
-  });
-
+const CreateUser = () => {
+  const nav = useNavigate();
+  const [roles, setRoles] = useState([]);
+  const [permissions, setPermissions] = useState([]);
   const formik = useFormik({
-    initialValues: {
-        name: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-    },
-    validationSchema: validationScheme,
+    initialValues: userInitialValue,
+    validationSchema: userValidation,
     onSubmit: (values) => {
-      registerUser(values);
+      console.log(values);
+       addNewuser(values);
     },
   });
 
+  useEffect(() => {
+    getroles();
+  }, []);
 
-  async function registerUser(values) {
+  const addNewuser = async (user) => {
     try {
-      const res = await axios.post("http://localhost:3000/auth/register", values);
-
+      const res = await http.post("/auth/addnewuser", user);
+      toast.success(res.data.message);
+      nav("/users");
     } catch (error) {
-      console.log(error.response.data.error);
-      toast.error(error.response.data.error);
+      console.log(error);
+      toast.error(error.response.data.message);
     }
-  }
+  };
+
+  const getroles = async () => {
+    try {
+      const res = await http.get("/auth/roles");
+      setRoles(res.data.roles);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const roleoption = roles.map((roles) => ({
+    value: roles.id,
+    label: roles.name,
+  }));
+
+
+
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -54,9 +60,9 @@ const SignUp = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign up in to your account
+              Create New User
             </h1>
-            <ToastContainer/>
+            <ToastContainer />
 
             <form
               className="space-y-4 md:space-y-6"
@@ -89,6 +95,31 @@ const SignUp = () => {
                   placeholder="name@company.com"
                 />
               </div>
+              <div className=" my-5">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Select Roles:
+                </label>
+                <Select
+                  id="roles"
+                  name="roles"
+                  options={roleoption}
+                  onChange={(roleoption) =>
+                    formik.setFieldValue(
+                      "roles",
+                      roleoption ? roleoption.value : ""
+                    )
+                  }
+                  value={roleoption.find(
+                    (option) => option.value === formik.values.roles
+                  )}
+                  onBlur={formik.handleBlur}
+                  className="mt-2"
+                ></Select>
+              </div>
+
               <div>
                 <Input
                   title={"Password"}
@@ -121,21 +152,8 @@ const SignUp = () => {
                 type="submit"
                 className=" mt-5 bg-green-700 hover:bg-green-900"
               >
-                Sign Up
+                Add User
               </Button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Do You Have a Account{" "}
-
-                <NavLink to={'/login'}>
-                <a
-                  href="#"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign In
-                </a>
-                </NavLink>
-
-              </p>
             </form>
           </div>
         </div>
@@ -144,4 +162,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default CreateUser;

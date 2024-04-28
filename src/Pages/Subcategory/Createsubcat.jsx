@@ -7,6 +7,7 @@ import Button from "../../Components/Button";
 import { useEffect } from "react";
 import axios from "axios";
 import { createsubcatvalidationScheme } from "./Schema";
+import http from "../../Utils/http";
 
 const Createsubcat = () => {
   const [categories, setCategories] = useState([]);
@@ -14,12 +15,11 @@ const Createsubcat = () => {
 
   const nav = useNavigate();
 
-
   const formik = useFormik({
     initialValues: {
       subcategory_name: "",
       category_id: "",
-      image:""
+      image: "",
     },
     validationSchema: createsubcatvalidationScheme,
     onSubmit: (values) => {
@@ -34,10 +34,7 @@ const Createsubcat = () => {
 
   async function apisendata(value) {
     try {
-      const data = await axios.post(
-        "http://localhost:3000/subcategories",
-        value
-      );
+      const data = await http.post("/subcategories", value);
       console.log(data);
       console.log(data.data.message);
       nav("/");
@@ -52,7 +49,7 @@ const Createsubcat = () => {
 
   async function getCategories() {
     try {
-      const res = await axios.get("http://localhost:3000/categories");
+      const res = await http.get("/categories");
       const categoriesData = res.data.categories;
       setCategories(categoriesData);
     } catch (error) {

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import http from '../Utils/http';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import http from "../Utils/http";
 
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -8,26 +8,23 @@ const useCategories = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await http.get("/categories");
-        setCategories(response.data.categories);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-        setIsLoading(false);
-      }
-    };
-
     fetchCategories();
-
-    // Cleanup function (if necessary)
     return () => {
-      // Cleanup code (if needed)
     };
   }, []);
 
-  return { categories, isLoading, error };
+  const fetchCategories = async () => {
+    try {
+      const response = await http.get("/categories");
+      setCategories(response.data.categories);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  };
+
+  return { categories, isLoading, error, fetchCategories };
 };
 
 export default useCategories;

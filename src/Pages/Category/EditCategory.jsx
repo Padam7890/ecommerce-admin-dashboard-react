@@ -8,6 +8,7 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { categoryIntialValue, createCategoryValidation, updateCategoryValidation } from "./Schema";
 import saveCategory from "./Formdata";
+import http from "../../Utils/http";
 
 const EditCategory = () => {
   const nav = useNavigate();
@@ -30,7 +31,7 @@ const EditCategory = () => {
 
   async function apisendata(data) {
     try {
-      const res = await axios.put(`http://localhost:3000/categories/${id}`, data);
+      const res = await http.put(`/categories/${id}`, data);
       console.log(res);
       console.log(res.data.message);
       toast.success(res.data.message);
@@ -43,7 +44,7 @@ const EditCategory = () => {
 
   async function getCategories() {
     try {
-      const res = await axios.get(`http://localhost:3000/categories/${id}`);
+      const res = await http.get(`/categories/${id}`);
       console.log(res.data);
       formik.setFieldValue("category_name", res.data.category.category_name);
       formik.setFieldValue("imageUrl", res.data.category.imageUrl);

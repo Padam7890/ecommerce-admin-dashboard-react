@@ -9,15 +9,16 @@ import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import parse from "html-react-parser";
 import useProductList from "../../CustomHook/productlist";
+import http from "../../Utils/http";
 
 const ProductList = () => {
-  const { products, isLoading, error,fetchProductList } = useProductList();
+  const { products, isLoading, error, fetchProductList } = useProductList();
   const [checkany, setcheked] = useState();
   const nav = useNavigate();
   const handleButtonClick = () => {
     nav("/product/create");
   };
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -28,13 +29,10 @@ const ProductList = () => {
   async function deleteRequest(valueId) {
     try {
       console.log(valueId);
-      const res = await axios.delete(
-        `http://localhost:3000/products/${valueId}`
-      );
+      const res = await http.delete(`/products/${valueId}`);
       console.log(res.data.message);
       toast.success(res.data.message);
       fetchProductList();
-
     } catch (error) {
       console.log(error);
     }

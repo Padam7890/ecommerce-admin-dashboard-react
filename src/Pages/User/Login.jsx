@@ -1,24 +1,19 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { number, object, mixed, string } from "yup";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginAction } from "../../redux/slice/authSlice";
-
 
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
-import decodeToken from "../../Utils/decodetoken";
+import http from "../../Utils/http";
 
 const Login = () => {
-    const navigation = useNavigate();
-    const dispatch = useDispatch();
+  const navigation = useNavigate();
   const validationScheme = object({
     email: string().required("Please enter valid email"),
     password: string().required("Please enter valid password"),
@@ -35,40 +30,22 @@ const Login = () => {
     },
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
 
-    const decodedToken = decodeToken(token);
-    if (decodedToken) {
-      dispatch(loginAction());
-      navigation("/");
-    }
-    else {
-      navigation("/login");
-    }
-    // if (token) {
-    //   navigation("/"); 
-    // }
-  }, [navigation]);
 
 
   async function loginUser(values) {
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", values);
-      console.log(res.data.message);
-
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        toast.success(res.data.message);
-        dispatch(loginAction(true));
-        navigation("/", { replace: true });
-      }
-      else{
-        toast.error(res.data.message);
-      }
+      const res = await http.post("http://localhost:3000/auth/login", values);
+      const { accessToken, refreshToken } = res.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log(res);
+      navigation("/");
     } catch (error) {
-        console.log(error);
-        toast.error(error.response.data);
+      console.log(error);
+      toast.error(error.response.data.message);
+
+
     }
   }
 
@@ -80,8 +57,11 @@ const Login = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6"  onSubmit={formik.handleSubmit} >
-             <ToastContainer/>
+            <form
+              className="space-y-4 md:space-y-6"
+              onSubmit={formik.handleSubmit}
+            >
+              <ToastContainer />
               <div>
                 <Input
                   title={"Your Email Address"}
@@ -130,7 +110,8 @@ const Login = () => {
                     </label>
                   </div>
                 </div>
-                <NavLink to="/forgetpassword"
+                <NavLink
+                  to="/forgetpassword"
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
@@ -144,16 +125,14 @@ const Login = () => {
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-
-                <NavLink to={'/register'}>
- <a
-                  href="#"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </a>
+                <NavLink to={"/register"}>
+                  <a
+                    href="#"
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Sign up
+                  </a>
                 </NavLink>
-               
               </p>
             </form>
           </div>

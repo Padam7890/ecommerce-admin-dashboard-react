@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { updatesubcatvalidationScheme } from "./Schema";
+import http from "../../Utils/http";
 
 const Editsubcat = () => {
   const [categories, setCategories] = useState([]);
@@ -44,7 +45,7 @@ const Editsubcat = () => {
 
   async function apiupdatedata(values) {
     try {
-        const res = await axios.put(`http://127.0.0.1:3000/subcategories/${id}`, values);
+        const res = await http.put(`/subcategories/${id}`, values);
         console.log(res);
         console.log(res.data.message);
         nav("/categories");
@@ -64,7 +65,7 @@ const Editsubcat = () => {
 
  async function getCategories() {
     try {
-      const res = await axios.get("http://localhost:3000/categories");
+      const res = await http.get("/categories");
       const categoriesData = res.data.categories;
       setCategories(categoriesData);
     } catch (error) {
@@ -75,7 +76,7 @@ const Editsubcat = () => {
 
  async function getsubcategrories() {
      try {
-       const res = await axios.get(`http://127.0.0.1:3000/subcategories/${id}`);
+       const res = await http.get(`/subcategories/${id}`);
        console.log(res.data.subcat);
      formik.setFieldValue("subcategory_name", res.data.subcat.subcategory_name);
      formik.setFieldValue("category_id", res.data.subcat.category_id);

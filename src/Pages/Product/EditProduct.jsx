@@ -17,6 +17,7 @@ import useCategories from "../../CustomHook/categoryList";
 import useSubcategories from "../../CustomHook/subcategory";
 import { initialValues, validationScheme } from "./schema";
 import formdata from "./formdata";
+import http from "../../Utils/http";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ const EditProduct = () => {
 
   async function apisendata(data) {
     try {
-      const res = await axios.put(`http://localhost:3000/products/${id}`, data);
+      const res = await http.put(`/products/${id}`, data);
       console.log(res);
       toast.success(res.data.message);
       nav("/products");
@@ -54,7 +55,7 @@ const EditProduct = () => {
 
   async function getProduct() {
     try {
-      const res = await axios.get(`http://localhost:3000/products/${id}`);
+      const res = await http.get(`/products/${id}`);
       const productdet = res.data.product;
       console.log(res.data.product, "valuueee");
       formik.setFieldValue("product_title", productdet.product_title);

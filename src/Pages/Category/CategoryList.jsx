@@ -9,41 +9,31 @@ import { ToastContainer, toast } from "react-toastify";
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
+import http from "../../Utils/http";
+import useCategories from "../../CustomHook/categoryList";
 const CategoryList = () => {
   const [category, setCategory] = useState([]);
   const nav = useNavigate();
+  const { categories, isLoading, error, fetchCategories } = useCategories();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   const handleButtonClick = () => {
     nav("/categories/create");
   };
 
-  useEffect(() => {
-    apiHandlecategoryList();
-  }, []);
-
-  async function apiHandlecategoryList() {
-    try {
-      const fetch = await axios.get("http://localhost:3000/categories");
-      const data = fetch.data.categories;
-      setCategory(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function deleteCategory(category) {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(
-        `http://localhost:3000/categories/${category}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await http.delete(
+        `http://localhost:3000/categories/${category}`);
       console.log(res);
-      apiHandlecategoryList();
+      await fetchCategories();
 
       toast.success(res.data.message);
 
@@ -92,7 +82,7 @@ const CategoryList = () => {
             </tr>
           </Thead>
           <tbody>
-            {category.map((category) => (
+            {categories.map((category) => (
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                   <div class="flex items-center">

@@ -4,6 +4,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const Ckeditiors = ({ title, formik, name, className, ...props }) => {
+
   return (
     <div className="mb-5">
       <label

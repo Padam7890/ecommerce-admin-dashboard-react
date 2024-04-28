@@ -8,17 +8,17 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { categoryIntialValue, createCategoryValidation } from "./Schema";
 import saveCategory from "./Formdata";
+import http from "../../Utils/http";
 
 const CreateCategory = () => {
-
   const nav = useNavigate();
 
   const formik = useFormik({
     initialValues: categoryIntialValue,
     validationSchema: createCategoryValidation,
     onSubmit: (values) => {
-       console.log(values);
-     const data =  saveCategory(values)
+      console.log(values);
+      const data = saveCategory(values);
       apisendata(data);
       console.log(data);
     },
@@ -26,14 +26,11 @@ const CreateCategory = () => {
 
   async function apisendata(formData) {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/categories",
-        formData
-      );
+      const res = await http.post("/categories", formData);
       console.log(res);
       console.log(res.data.message);
       toast.success(res.data.message);
-       nav("/categories");
+      nav("/categories");
     } catch (error) {
       console.log(error);
       toast.error(error);
@@ -61,15 +58,15 @@ const CreateCategory = () => {
           placeholder="Category Name"
         />
         <Input
-        title="Image"
-        type="file"
-        formik={formik}
-        id="image"
-        name="image"
-        onChange={(event) => {
-          formik.setFieldValue("image" , event.currentTarget.files[0]);
-        }}       
-         accept="image/*"
+          title="Image"
+          type="file"
+          formik={formik}
+          id="image"
+          name="image"
+          onChange={(event) => {
+            formik.setFieldValue("image", event.currentTarget.files[0]);
+          }}
+          accept="image/*"
         />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">

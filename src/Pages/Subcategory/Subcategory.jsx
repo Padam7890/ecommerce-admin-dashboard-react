@@ -8,43 +8,39 @@ import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import { useEffect } from "react";
 import axios from "axios";
-
+import useSubcategories from "../../CustomHook/subcategory";
+import http from "../../Utils/http";
 
 const Subcategory = () => {
-  const [subcategory, setSubcategory] = useState([]);
-
   const nav = useNavigate();
+
+  const {
+    subcategory,
+    isLoadingSubcategories,
+    errorSubcategories,
+    fetchSubcategories,
+  } = useSubcategories();
+  if (isLoadingSubcategories) {
+    return <div>Loading...</div>;
+  }
+
+  if (errorSubcategories) {
+    return <div>Error: {errorSubcategories.message}</div>;
+  }
 
   const handleButtonClick = () => {
     nav("/subcategories/create");
   };
 
-  useEffect(() => {
-    getsubcategories();
-  }, []);
-
-  async function getsubcategories() {
-    try {
-      const fetch = await axios.get("http://localhost:3000/subcategories");
-      const data = fetch.data.subcategory;
-      console.log(data);
-      setSubcategory(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function deleteSubcategory(data) {
     try {
-      const res = await axios.delete(
-        `http://localhost:3000/subcategories/${data}`
-      );
+      const res = await http.delete(`/subcategories/${data}`);
       console.log(res.data.message);
       toast.success(res.data.message);
-      getsubcategories();
+      fetchSubcategories();
     } catch (error) {
       console.log(error);
-       toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -52,7 +48,7 @@ const Subcategory = () => {
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Sub Category List</h2>
         <Button
@@ -112,12 +108,10 @@ const Subcategory = () => {
                     >
                       Edit
                     </Button>
-
-
                   </NavLink>
 
                   <Button
-                    onClick={()=>deleteSubcategory(subcat.id)}
+                    onClick={() => deleteSubcategory(subcat.id)}
                     href="#"
                     className=" bg-red-500  font-light text-center text-xs"
                   >

@@ -10,14 +10,14 @@ import http from "../../Utils/http";
 import { useNavigate } from "react-router-dom";
 
 const AdCreate = () => {
-    const nav = useNavigate()
+    const nav = useNavigate();
   const formik = useFormik({
     initialValues: initialadvalue,
     validationSchema: createadvalidation,
     onSubmit: (values) => {
       console.log(values);
       const data = addata(values);
-      apisenddata(data);
+      // apisenddata(data);
     },
   });
 

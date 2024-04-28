@@ -8,16 +8,6 @@ const useSubcategories = () => {
   const [errorSubcategories, setErrorSubcategories] = useState(null);
 
   useEffect(() => {
-    const fetchSubcategories = async () => {
-      try {
-        const response = await http.get("/subcategories");
-        setSubcategories(response.data.subcategory);
-        setIsLoadingSubcategories(false);
-      } catch (error) {
-        setErrorSubcategories(error);
-        setIsLoadingSubcategories(false);
-      }
-    };
 
     fetchSubcategories();
 
@@ -27,7 +17,18 @@ const useSubcategories = () => {
     };
   }, []);
 
-  return { subcategory, isLoadingSubcategories, errorSubcategories };
+  const fetchSubcategories = async () => {
+    try {
+      const response = await http.get("/subcategories");
+      setSubcategories(response.data.subcategory);
+      setIsLoadingSubcategories(false);
+    } catch (error) {
+      setErrorSubcategories(error);
+      setIsLoadingSubcategories(false);
+    }
+  };
+
+  return { subcategory, isLoadingSubcategories, errorSubcategories ,fetchSubcategories };
 };
 
 export default useSubcategories;
