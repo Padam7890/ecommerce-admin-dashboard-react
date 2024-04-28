@@ -46,6 +46,7 @@ const SignUp = () => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       console.log(res);
+      navigation("/");
 
     } catch (error) {
       console.log(error.response.data.error);
