@@ -27,7 +27,7 @@ const CreateUser = () => {
 
   const addNewuser = async (user) => {
     try {
-      const res = await http.post("/auth/addnewuser", user);
+      const res = await http.post("/auth/addnewuser'", user);
       toast.success(res.data.message);
       nav("/users");
     } catch (error) {
