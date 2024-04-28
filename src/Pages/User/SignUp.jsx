@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import http from "../../Utils/http";
 
 const SignUp = () => {
   const navigation = useNavigate();
@@ -40,7 +41,11 @@ const SignUp = () => {
 
   async function registerUser(values) {
     try {
-      const res = await axios.post("http://localhost:3000/auth/register", values);
+      const res = await http.post("auth/register", values);
+      const { accessToken, refreshToken } = res.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log(res);
 
     } catch (error) {
       console.log(error.response.data.error);
