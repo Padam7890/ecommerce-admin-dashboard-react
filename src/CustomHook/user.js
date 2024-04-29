@@ -12,11 +12,7 @@ const useUserInfoList = () => {
 
    const fetchuserinfo = async () => {
      try {
-       const res = await http.get("/auth/profile", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+       const res = await http.get("/auth/profile");
       setuserinfo(res.data.user)
        setIsLoading(false);
      } catch (error) {
