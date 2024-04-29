@@ -20,6 +20,8 @@ import http from "../../Utils/http";
 const CreateProduct = () => {
   const { categories } = useCategories();
   const { subcategory } = useSubcategories();
+  const [isLoading, setIsLoading] = useState(false); 
+
   const nav = useNavigate();
 
   const formik = useFormik({
@@ -42,6 +44,10 @@ const CreateProduct = () => {
       console.log(error);
       toast.error(error);
     }
+    finally {
+      setIsLoading(false);
+    }
+
   }
 
   console.log(categories);
@@ -330,9 +336,10 @@ const CreateProduct = () => {
            />
         </div>
 
-        <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        <Button type="submit" className="mt-5 bg-green-700 hover:bg-green-900">
+          {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
+
       </form>
     </>
   );
