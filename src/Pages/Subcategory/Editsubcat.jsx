@@ -167,7 +167,7 @@ const Editsubcat = () => {
          accept="image/*"/>
 
          <img
-            src={`http://localhost:3000${formik.values.imageUrl}`}
+            src={`${formik.values.imageUrl}`}
             alt="product image"
             className="w-full"
           />

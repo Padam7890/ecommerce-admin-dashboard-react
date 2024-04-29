@@ -17,7 +17,7 @@ const AdCreate = () => {
     onSubmit: (values) => {
       console.log(values);
       const data = addata(values);
-      // apisenddata(data);
+      apisenddata(data);
     },
   });
 
@@ -28,7 +28,7 @@ const AdCreate = () => {
         data
       );
       console.log(res);
-      nav("/advertisement");
+      nav("/advertisment");
     } catch (error) {
       console.log(error);
       toast.error(error);
@@ -99,10 +99,10 @@ const AdCreate = () => {
           title="Advertisment Image"
           type="file"
           formik={formik}
-          id="url"
-          name="url"
+          id="image"
+          name="image"
           onChange={(event) => {
-            formik.setFieldValue("url", event.currentTarget.files[0]);
+            formik.setFieldValue("image", event.currentTarget.files[0]);
           }}
           accept="image/*"
         />

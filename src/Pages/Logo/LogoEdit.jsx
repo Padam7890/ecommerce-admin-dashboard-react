@@ -25,6 +25,7 @@ const Logoedit = () => {
       const res = await http.put(`/logos/${id}`, data);
       console.log(res);
       toast.success(res.data.message);
+      nav('/logos')
     } catch (error) {
       console.log(error);
       toast.error(error);
@@ -96,7 +97,7 @@ const Logoedit = () => {
         />
 
         <img
-          src={`http://localhost:3000${formik.values.imageUrl}`}
+          src={`${formik.values.imageUrl}`}
           alt="product image"
           className="w-[70%]"
         />

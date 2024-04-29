@@ -1,12 +1,17 @@
 import React from "react";
 import Input from "../../Components/Input";
 import { useFormik } from "formik";
-import { bannerinitialValues, bannervalidation, createbannervalidation } from "./schema";
+import {
+  bannerinitialValues,
+  bannervalidation,
+  createbannervalidation,
+} from "./schema";
 import bannerdata from "./formdata";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import axios from "axios";
+import http from "../../Utils/http";
 
 const Create = () => {
   const nav = useNavigate();
@@ -23,12 +28,10 @@ const Create = () => {
 
   async function apisendata(data) {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/banner",
-        data
-      );
-      console.log(res);
-    //   toast.success(res.data.message);
+      const res = await http.post("/banner", data);
+      // console.log(res);
+      console.log('hey');
+      //   toast.success(res.data.message);
       nav("/banner");
     } catch (error) {
       console.log(error);

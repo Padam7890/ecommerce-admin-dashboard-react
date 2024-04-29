@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "./Button";
 import axios from "axios";
+import http from "../Utils/http";
+import { ToastContainer, toast } from "react-toastify";
 
 const Image = ({ imageList, formik }) => {
   //delete image from index
@@ -12,8 +14,8 @@ const Image = ({ imageList, formik }) => {
 
   async function deleteImage(imageId) {
     try {
-      const res = await axios.delete(`http://localhost:3000/image/${imageId}`);
-      console.log(res);
+      const res = await http.delete(`/image/${imageId}`);
+      toast.success(res.data.message)
     } catch (error) {
       console.log(error);
     }
@@ -21,6 +23,7 @@ const Image = ({ imageList, formik }) => {
 
   return (
     <div className="image flex w-[800px] gap-3">
+      <ToastContainer/>
       {imageList.map((image, index) => (
         <div className="w-full flex relative" key={index}>
           <Button
@@ -31,7 +34,7 @@ const Image = ({ imageList, formik }) => {
             delete
           </Button>
           <img
-            src={`http://localhost:3000${image.url}`}
+            src={`${image.url}`}
             alt="product image"
             className="w-full"
           />

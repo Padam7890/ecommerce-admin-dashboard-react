@@ -33,7 +33,7 @@ const Edit = () => {
     try {
       console.log(data);
     //   const res = await http.put(`/banner/${id}`,  data);
-      const res = await axios.put(`http://localhost:3000/banner/${id}`, data);
+      const res = await http.put(`/banner/${id}`, data);
       nav('/banner')
       console.log(res);
       toast.success(res.data.message);
@@ -46,7 +46,7 @@ const Edit = () => {
 
   const getBanner = async () => {
     try {
-      const res = await http.get(`http://localhost:3000/banner/${id}`);
+      const res = await http.get(`/banner/${id}`);
       const data = res.data.banner;
       console.log(res.data.banner);
       formik.setFieldValue("id", data.id);
@@ -122,7 +122,7 @@ const Edit = () => {
         </Button>
      
         <img
-          src={`http://localhost:3000${formik.values.imageUrl}`}
+          src={`${formik.values.imageUrl}`}
           alt="product image"
           className="w-[70%]"
         />
