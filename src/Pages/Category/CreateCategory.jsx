@@ -12,6 +12,8 @@ import http from "../../Utils/http";
 
 const CreateCategory = () => {
   const nav = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); 
+
 
   const formik = useFormik({
     initialValues: categoryIntialValue,
@@ -26,6 +28,7 @@ const CreateCategory = () => {
 
   async function apisendata(formData) {
     try {
+      setIsLoading(true);
       const res = await http.post("/categories", formData);
       console.log(res);
       console.log(res.data.message);
@@ -34,6 +37,9 @@ const CreateCategory = () => {
     } catch (error) {
       console.log(error);
       toast.error(error);
+    }
+    finally{
+      setIsLoading(false);
     }
   }
 
@@ -70,7 +76,7 @@ const CreateCategory = () => {
         />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
     </>
