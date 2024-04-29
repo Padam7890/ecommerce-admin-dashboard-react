@@ -42,7 +42,7 @@ const ProductList = () => {
       fetchProductList();
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.message);
     } finally {
       setIsLoading(prev=> ({
         ...prev,
