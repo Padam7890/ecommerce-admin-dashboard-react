@@ -31,7 +31,10 @@ const ProductList = () => {
   }
   async function deleteRequest(valueId) {
     try {
-      setIsLoading(true);
+      setIsLoading(prev=> ({
+        ...prev,
+        [valueId]:true
+      }));
       console.log(valueId);
       const res = await http.delete(`/products/${valueId}`);
       console.log(res.data.message);
@@ -40,8 +43,10 @@ const ProductList = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
-    }
+      setIsLoading(prev=> ({
+        ...prev,
+        [valueId]:false
+      }));    }
   }
   function checkboxall() {
     setcheked(!checkany);
@@ -128,7 +133,7 @@ const ProductList = () => {
                     onClick={() => deleteRequest(products.id)}
                     className=" bg-red-500  font-light text-center text-xs "
                   >
-                    {isLoadingbtn ? "Deleting... Wait" : "Delete"}
+                    {isLoadingbtn[products.id] ? "Deleting... Wait" : "Delete"}
                   </Button>
                 </td>
               </tr>
