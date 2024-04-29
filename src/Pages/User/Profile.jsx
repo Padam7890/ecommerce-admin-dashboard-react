@@ -20,7 +20,7 @@ const Profile = () => {
 
   console.log(userinfo);
 
-  console.log(userinfo);
+  console.log(fetchuserinfo);
   return (
     <div class="hidden space-y-6 p-10 pb-16 md:block bg-white">
       <div class="space-y-0.5">
