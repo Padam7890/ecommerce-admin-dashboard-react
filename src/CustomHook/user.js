@@ -14,7 +14,7 @@ const useUserInfoList = () => {
      try {
        const res = await http.get("/auth/profile", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
       setuserinfo(res.data.user)
