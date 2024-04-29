@@ -128,7 +128,7 @@ const ProductList = () => {
                     onClick={() => deleteRequest(products.id)}
                     className=" bg-red-500  font-light text-center text-xs "
                   >
-                    {isLoading ? "Deleting... Wait" : "Delete"}
+                    {isLoadingbtn ? "Deleting... Wait" : "Delete"}
                   </Button>
                 </td>
               </tr>
