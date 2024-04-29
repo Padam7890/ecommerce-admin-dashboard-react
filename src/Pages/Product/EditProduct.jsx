@@ -24,8 +24,8 @@ const EditProduct = () => {
   const nav = useNavigate();
   const { categories } = useCategories();
   const { subcategory } = useSubcategories();
+  const [isLoading, setIsLoading] = useState(false); 
 
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getProduct();
@@ -43,6 +43,7 @@ const EditProduct = () => {
 
   async function apisendata(data) {
     try {
+      setIsLoading(true);
       const res = await http.put(`/products/${id}`, data);
       console.log(res);
       toast.success(res.data.message);
@@ -50,6 +51,9 @@ const EditProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);
+    }
+    finally{
+      setIsLoading(false);
     }
   }
 
@@ -371,8 +375,8 @@ const EditProduct = () => {
         />
         <Image imageList={formik.values.product_image} formik={formik} />
 
-        <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        <Button type="submit"  className="mt-5 bg-green-700  hover:bg-green-900">
+          {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
     </>

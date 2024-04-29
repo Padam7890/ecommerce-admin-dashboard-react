@@ -337,7 +337,7 @@ const CreateProduct = () => {
            />
         </div>
 
-        <Button type="submit" className="mt-5 bg-green-700 hover:bg-green-900">
+        <Button type="submit"  className="mt-5 bg-green-700  hover:bg-green-900">
           {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
 
