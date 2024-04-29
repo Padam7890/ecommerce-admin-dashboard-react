@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Button from "../../Components/Button";
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";

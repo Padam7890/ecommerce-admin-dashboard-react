@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Button from "../../Components/Button";
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
@@ -32,6 +32,8 @@ const Bannerindex = () => {
       fetchBannerList();
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
+
     }
   };
 
