@@ -18,6 +18,7 @@ const Profile = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  console.log(userinfo)
 
   console.log(userinfo);
   return (
