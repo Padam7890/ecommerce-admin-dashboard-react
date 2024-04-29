@@ -16,13 +16,7 @@ const useProductList = () => {
 
   const fetchProductList = async () => {
     try {
-      const response = await http.get("/products", {
-        headers: {
-         'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-
-      });
+      const response = await http.get("/products");
       setProducts(response.data.products);
       setIsLoading(false);
     } catch (error) {

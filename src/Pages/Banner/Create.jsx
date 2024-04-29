@@ -12,9 +12,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import axios from "axios";
 import http from "../../Utils/http";
+import { useState } from "react";
 
 const Create = () => {
   const nav = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: bannerinitialValues,
@@ -28,13 +30,16 @@ const Create = () => {
 
   async function apisendata(data) {
     try {
+      setIsLoading(true);
       const res = await http.post("/banner", data);
       // console.log(res);
-      console.log('hey');
+      console.log("hey");
       //   toast.success(res.data.message);
       nav("/banner");
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -96,7 +101,7 @@ const Create = () => {
         />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
     </>

@@ -13,19 +13,15 @@ const Editsubcat = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const nav = useNavigate();
-  const validationScheme = object({
-    subcategory_name: string().required("Please enter valid Sub Category name"),
-    category_id: number().required(),
-    image:mixed().required("Please enter Image")
-  });
 
   const formik = useFormik({
     initialValues: {
       subcategory_name: "",
       category_id: "",
-      image:"",
+      image: "",
       imageUrl: "",
     },
     validationSchema: updatesubcatvalidationScheme,
@@ -39,31 +35,31 @@ const Editsubcat = () => {
       }
       formData.append("imageUrl", values.imageUrl);
 
-       apiupdatedata(formData);
+      apiupdatedata(formData);
     },
   });
 
   async function apiupdatedata(values) {
     try {
-        const res = await http.put(`/subcategories/${id}`, values);
-        console.log(res);
-        console.log(res.data.message);
-        nav("/categories");
-      } catch (error) {
-        console.log(error);
-        toast.error(error);
-      }
+      setIsLoading(true);
+      const res = await http.put(`/subcategories/${id}`, values);
+      console.log(res);
+      console.log(res.data.message);
+      nav("/categories");
+    } catch (error) {
+      console.log(error);
+      toast.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
-
 
   useEffect(() => {
     getsubcategrories();
     getCategories();
- }, []);
+  }, []);
 
-
-
- async function getCategories() {
+  async function getCategories() {
     try {
       const res = await http.get("/categories");
       const categoriesData = res.data.categories;
@@ -73,20 +69,21 @@ const Editsubcat = () => {
     }
   }
 
-
- async function getsubcategrories() {
-     try {
-       const res = await http.get(`/subcategories/${id}`);
-       console.log(res.data.subcat);
-     formik.setFieldValue("subcategory_name", res.data.subcat.subcategory_name);
-     formik.setFieldValue("category_id", res.data.subcat.category_id);
-     formik.setFieldValue("imageUrl", res.data.subcat.imageUrl);     
-
-     } catch (error) {
-       console.log(error);
-       toast.error(error.response.data.message);
-     }
-   }
+  async function getsubcategrories() {
+    try {
+      const res = await http.get(`/subcategories/${id}`);
+      console.log(res.data.subcat);
+      formik.setFieldValue(
+        "subcategory_name",
+        res.data.subcat.subcategory_name
+      );
+      formik.setFieldValue("category_id", res.data.subcat.category_id);
+      formik.setFieldValue("imageUrl", res.data.subcat.imageUrl);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
 
   const handleSearchChange = (event) => {
     const searchTermValue = event.target.value;
@@ -155,28 +152,29 @@ const Editsubcat = () => {
           onBlur={formik.handleBlur}
           placeholder="Sub Category Name"
         />
-          <Input
-        title="Image"
-        type="file"
-        formik={formik}
-        id="image"
-        name="image"
-        onChange={(event) => {
-          formik.setFieldValue("image" , event.currentTarget.files[0]);
-        }}       
-         accept="image/*"/>
+        <Input
+          title="Image"
+          type="file"
+          formik={formik}
+          id="image"
+          name="image"
+          onChange={(event) => {
+            formik.setFieldValue("image", event.currentTarget.files[0]);
+          }}
+          accept="image/*"
+        />
 
-         <img
-            src={`${formik.values.imageUrl}`}
-            alt="product image"
-            className="w-full"
-          />
+        <img
+          src={`${formik.values.imageUrl}`}
+          alt="product image"
+          className="w-full"
+        />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+          {isLoading ? "Submitting... Wait" : "Submit"}
         </Button>
       </form>
     </div>
   );
-          }
+};
 export default Editsubcat;

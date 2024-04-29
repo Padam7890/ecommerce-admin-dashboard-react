@@ -24,8 +24,8 @@ const EditProduct = () => {
   const nav = useNavigate();
   const { categories } = useCategories();
   const { subcategory } = useSubcategories();
-  const [isLoading, setIsLoading] = useState(false); 
 
+  const [isLoadingbtn, setIsLoading] = useState(false);
 
   useEffect(() => {
     getProduct();
@@ -51,8 +51,7 @@ const EditProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);
-    }
-    finally{
+    } finally {
       setIsLoading(false);
     }
   }
@@ -61,35 +60,28 @@ const EditProduct = () => {
     try {
       const res = await http.get(`/products/${id}`);
       const productdet = res.data.product;
-      console.log(res.data.product, "valuueee");
-      formik.setFieldValue("product_title", productdet.product_title);
-      formik.setFieldValue(
-        "product_description",
-        productdet.product_description
-      );
-      formik.setFieldValue("regular_price", productdet.regular_price);
-      formik.setFieldValue("sale_price", productdet.sale_price);
-      formik.setFieldValue("category_id", productdet.category_id);
-      formik.setFieldValue("subcategory_id", productdet.subcategory_id);
-      formik.setFieldValue("product_tags", productdet.product_tags);
-      formik.setFieldValue("is_featured", productdet.is_featured);
-      formik.setFieldValue("product_hot", productdet.product_hot);
-      formik.setFieldValue("product_sku", productdet.product_sku);
-      formik.setFieldValue("product_quantity", productdet.product_quantity);
-      formik.setFieldValue("product_weight", productdet.product_weight);
-      formik.setFieldValue("product_size", productdet.product_size);
-      formik.setFieldValue("product_color", productdet.product_color);
-      formik.setFieldValue("stock_type", productdet.stock_type);
-
-      // Set product images
-      // Set product images
-      if (productdet.images && productdet.images.length > 0) {
-        const images = productdet.images.map((image) => ({
+      formik.setValues({
+        ...formik.values,
+        product_title: productdet.product_title,
+        product_description: productdet.product_description,
+        regular_price: productdet.regular_price,
+        sale_price: productdet.sale_price,
+        category_id: productdet.category_id,
+        subcategory_id: productdet.subcategory_id,
+        product_tags: productdet.product_tags,
+        is_featured: productdet.is_featured,
+        product_hot: productdet.product_hot,
+        product_sku: productdet.product_sku,
+        product_quantity: productdet.product_quantity,
+        product_weight: productdet.product_weight,
+        product_size: productdet.product_size,
+        product_color: productdet.product_color,
+        stock_type: productdet.stock_type,
+        product_image: productdet.images.map((image) => ({
           id: image.id,
           url: image.imageUrl,
-        }));
-        formik.setFieldValue("product_image", images);
-      }
+        })),
+      });
       if (productdet.ProductTag && productdet.ProductTag.length > 0) {
         const product_tags = productdet.ProductTag.map((tag) => tag.tags.name);
         formik.setFieldValue("product_tags", product_tags.toString());
@@ -375,8 +367,8 @@ const EditProduct = () => {
         />
         <Image imageList={formik.values.product_image} formik={formik} />
 
-        <Button type="submit"  className="mt-5 bg-green-700  hover:bg-green-900">
-          {isLoading ? 'Submitting... Wait' : 'Submit'} 
+        <Button type="submit" className="mt-5 bg-green-700  hover:bg-green-900">
+          {isLoadingbtn ? "Submitting... Wait" : "Submit"}
         </Button>
       </form>
     </>

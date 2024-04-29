@@ -12,6 +12,8 @@ import http from "../../Utils/http";
 const Createsubcat = () => {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
+
 
   const nav = useNavigate();
 
@@ -34,12 +36,16 @@ const Createsubcat = () => {
 
   async function apisendata(value) {
     try {
+      setIsLoading(true)
       const data = await http.post("/subcategories", value);
       console.log(data);
       console.log(data.data.message);
       nav("/");
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setIsLoading(false)
     }
   }
 
@@ -138,7 +144,7 @@ const Createsubcat = () => {
         />
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
     </div>
