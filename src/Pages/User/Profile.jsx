@@ -18,7 +18,7 @@ const Profile = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(userinfo)
+  console.log(userinfo);
 
   console.log(userinfo);
   return (
@@ -43,11 +43,14 @@ const Profile = () => {
           <p class="text-sm text-muted-foreground">
             Email: <strong>{userinfo.email}</strong>
           </p>
-          {userinfo.roles.map((role) => (
-            <p class="text-sm text-muted-foreground">
-              Roles: <strong>{role.name}</strong>
-            </p>
-          ))}
+
+          {userinfo.roles &&
+            userinfo.roles.map((role) => (
+              <p class="text-sm text-muted-foreground">
+                Roles: <strong>{role.name}</strong>
+              </p>
+            ))}
+
           <div className="forgetpassword">
             <Button
               onClick={() => changepass()}
