@@ -35,6 +35,7 @@ const CreateProduct = () => {
 
   async function apisendata(data) {
     try {
+      setIsLoading(true)
       console.log(data);
       const res = await http.post("/products", data);
       console.log(res);
