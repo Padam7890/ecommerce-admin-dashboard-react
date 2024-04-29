@@ -13,6 +13,7 @@ import http from "../../Utils/http";
 const EditCategory = () => {
   const nav = useNavigate();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false); 
 
   useEffect(() => {
     getCategories();
@@ -31,6 +32,7 @@ const EditCategory = () => {
 
   async function apisendata(data) {
     try {
+      setIsLoading(true);
       const res = await http.put(`/categories/${id}`, data);
       console.log(res);
       console.log(res.data.message);
@@ -39,6 +41,9 @@ const EditCategory = () => {
     } catch (error) {
       console.log(error);
       toast.error(error);
+    }
+    finally{
+      setIsLoading(false);
     }
   }
 
@@ -99,7 +104,8 @@ const EditCategory = () => {
        
 
         <Button type="submit" className=" mt-5 bg-green-700 hover:bg-green-900">
-          Submit
+        {isLoading ? 'Submitting... Wait' : 'Submit'} 
+
         </Button>
       </form>
     </>
