@@ -14,7 +14,10 @@ import http from "../../Utils/http";
 const ProductList = () => {
   const { products, isLoading, error, fetchProductList } = useProductList();
   const [checkany, setcheked] = useState();
+  const [isLoadingbtn, setIsLoading] = useState(false);
+
   const nav = useNavigate();
+
   const handleButtonClick = () => {
     nav("/product/create");
   };
@@ -28,6 +31,7 @@ const ProductList = () => {
   }
   async function deleteRequest(valueId) {
     try {
+      setIsLoading(true);
       console.log(valueId);
       const res = await http.delete(`/products/${valueId}`);
       console.log(res.data.message);
@@ -35,6 +39,8 @@ const ProductList = () => {
       fetchProductList();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
   function checkboxall() {
@@ -122,7 +128,7 @@ const ProductList = () => {
                     onClick={() => deleteRequest(products.id)}
                     className=" bg-red-500  font-light text-center text-xs "
                   >
-                    Delete
+                    {isLoading ? "Deleting... Wait" : "Delete"}
                   </Button>
                 </td>
               </tr>

@@ -59,8 +59,6 @@ const EditCategory = () => {
     }
   }
 
-
-
   return (
     <>
       <ToastContainer />
