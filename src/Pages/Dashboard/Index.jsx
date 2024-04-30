@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CartDatastats from "../../Components/CartDatastats";
 import { IoIosCart } from "react-icons/io";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
+import http from "../../Utils/http";
 
 const Index = () => {
+    const [dashboarddet,setdashboarddetail] = useState();
 
-    // const totalOrders = 
+    useEffect(() => {
+        dashboarddetails();
+    }, []);
+
+     const dashboarddetails = async()=>{
+        try {
+            const response = await http.get("/dashboard");
+            setdashboarddetail(response.data.data);
+            
+        } catch (error) {
+            console.log(error)
+        }
+     }
+
+console.log(dashboarddet);
 
 
 
