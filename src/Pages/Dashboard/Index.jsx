@@ -7,24 +7,39 @@ import http from "../../Utils/http";
 import useDashboardDetails from "../../CustomHook/dashboard";
 
 const Index = () => {
-    const { dashboardDetails, isLoading, error } = useDashboardDetails();
+  const { dashboardDetails, isLoading, error } = useDashboardDetails();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-console.log(dashboardDetails);
-
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CartDatastats title="Total Order" total={dashboardDetails.totalOrder} rate="0.43%" levelUp>
-          <div >
-            <CiShoppingCart className="  fill-[#3C50E0] dark:fill-white" size={25} />
+        <CartDatastats
+          title="Total Order"
+          total={dashboardDetails.totalOrder}
+          rate={dashboardDetails.percentages + "%"}
+          levelCheck={dashboardDetails.totalOrder > 0 ? true : false}
+        >
+          <div>
+            <CiShoppingCart
+              className="  fill-[#3C50E0] dark:fill-white"
+              size={25}
+            />
           </div>
         </CartDatastats>
         <CartDatastats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
-        <div >
-            <MdAttachMoney className="  fill-[#3C50E0] dark:fill-white" size={25} />
+          <div>
+            <MdAttachMoney
+              className="  fill-[#3C50E0] dark:fill-white"
+              size={25}
+            />
           </div>
         </CartDatastats>
-        <CartDatastats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        <CartDatastats title="Total Product" total="2.450" rate="2.59%"  levelCheck = {true}>
           <svg
             className="fill-[#3C50E0] dark:fill-white"
             width="22"
@@ -43,7 +58,7 @@ console.log(dashboardDetails);
             />
           </svg>
         </CartDatastats>
-        <CartDatastats title="Total Users" total="3.456" rate="0.95%" levelDown>
+        <CartDatastats title="Total Users" total="3.456" rate="0.95%" levelCheck = {true}>
           <svg
             className="fill-[#3C50E0] dark:fill-white"
             width="22"
