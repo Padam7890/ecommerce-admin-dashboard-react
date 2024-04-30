@@ -4,32 +4,17 @@ import { IoIosCart } from "react-icons/io";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
 import http from "../../Utils/http";
+import useDashboardDetails from "../../CustomHook/dashboard";
 
 const Index = () => {
-    const [dashboarddet,setdashboarddetail] = useState();
+    const { dashboardDetails, isLoading, error } = useDashboardDetails();
 
-    useEffect(() => {
-        dashboarddetails();
-    }, []);
-
-     const dashboarddetails = async()=>{
-        try {
-            const response = await http.get("/dashboard");
-            setdashboarddetail(response.data.data);
-            
-        } catch (error) {
-            console.log(error)
-        }
-     }
-
-console.log(dashboarddet);
-
-
+console.log(dashboardDetails);
 
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CartDatastats title="Total Order" total="400" rate="0.43%" levelUp>
+        <CartDatastats title="Total Order" total={dashboardDetails.totalOrder} rate="0.43%" levelUp>
           <div >
             <CiShoppingCart className="  fill-[#3C50E0] dark:fill-white" size={25} />
           </div>
