@@ -5,6 +5,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { MdAttachMoney } from "react-icons/md";
 import http from "../../Utils/http";
 import useDashboardDetails from "../../CustomHook/dashboard";
+import ChartOne from "../../Components/Charts/ChartOne";
 
 const Index = () => {
   const { dashboardDetails, isLoading, error } = useDashboardDetails();
@@ -27,22 +28,32 @@ const Index = () => {
         >
           <div>
             <CiShoppingCart
-              className="  fill-[#3C50E0] dark:fill-white"
+              className="  fill-green-500 dark:fill-white"
               size={25}
             />
           </div>
         </CartDatastats>
-        <CartDatastats title="Total Profit" total={`Rs. ${dashboardDetails.totalProfits} `} rate="4.35%" levelUp>
+        <CartDatastats
+          title="Total Profit"
+          total={`Rs. ${dashboardDetails.totalProfits} `}
+          rate="4.35%"
+          levelUp
+        >
           <div>
             <MdAttachMoney
-              className="  fill-[#3C50E0] dark:fill-white"
+              className="  fill-green-500 dark:fill-white"
               size={25}
             />
           </div>
         </CartDatastats>
-        <CartDatastats title="Total Product" total={dashboardDetails.totalProducts} rate="2.59%"  levelCheck = {true}>
+        <CartDatastats
+          title="Total Product"
+          total={dashboardDetails.totalProducts}
+          rate="2.59%"
+          levelCheck={true}
+        >
           <svg
-            className="fill-[#3C50E0] dark:fill-white"
+            className="fill-green-500 dark:fill-white"
             width="22"
             height="22"
             viewBox="0 0 22 22"
@@ -59,9 +70,14 @@ const Index = () => {
             />
           </svg>
         </CartDatastats>
-        <CartDatastats title="Total Users" total={dashboardDetails.totalUsers} rate="0.95%" levelCheck = {true}>
+        <CartDatastats
+          title="Total Users"
+          total={dashboardDetails.totalUsers}
+          rate="0.95%"
+          levelCheck={true}
+        >
           <svg
-            className="fill-[#3C50E0] dark:fill-white"
+            className="fill-green-500 dark:fill-white"
             width="22"
             height="18"
             viewBox="0 0 22 18"
@@ -82,6 +98,16 @@ const Index = () => {
             />
           </svg>
         </CartDatastats>
+      </div>
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />
+        {/* <ChartTwo />
+        <ChartThree />
+        <MapOne /> */}
+        {/* <div className="col-span-12 xl:col-span-8">
+          <TableOne />
+        </div>
+        <ChatCard /> */}
       </div>
     </div>
   );

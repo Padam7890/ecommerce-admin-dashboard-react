@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { navmenu } from "./Navbar.jsx";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoExit } from "react-icons/io5";
+import logo from "../assets/logo.png"
 
 const NewSidebar = () => {
   const nav = useNavigate();
@@ -38,6 +39,10 @@ const NewSidebar = () => {
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 pl-10 dark:bg-gray-800">
           <ul class="space-y-2 font-medium">
+             <div className=" mt-4 mb-5 hidden md:block">
+              <img src={logo} alt="" />
+
+             </div>
             {navmenu.map((menu, index) => (
               <li>
                 <NavLink
