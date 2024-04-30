@@ -15,6 +15,7 @@ const Index = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+  // console.log(dashboardDetails);
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -31,7 +32,7 @@ const Index = () => {
             />
           </div>
         </CartDatastats>
-        <CartDatastats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CartDatastats title="Total Profit" total={`Rs. ${dashboardDetails.totalProfits} `} rate="4.35%" levelUp>
           <div>
             <MdAttachMoney
               className="  fill-[#3C50E0] dark:fill-white"
@@ -39,7 +40,7 @@ const Index = () => {
             />
           </div>
         </CartDatastats>
-        <CartDatastats title="Total Product" total="2.450" rate="2.59%"  levelCheck = {true}>
+        <CartDatastats title="Total Product" total={dashboardDetails.totalProducts} rate="2.59%"  levelCheck = {true}>
           <svg
             className="fill-[#3C50E0] dark:fill-white"
             width="22"
@@ -58,7 +59,7 @@ const Index = () => {
             />
           </svg>
         </CartDatastats>
-        <CartDatastats title="Total Users" total="3.456" rate="0.95%" levelCheck = {true}>
+        <CartDatastats title="Total Users" total={dashboardDetails.totalUsers} rate="0.95%" levelCheck = {true}>
           <svg
             className="fill-[#3C50E0] dark:fill-white"
             width="22"
