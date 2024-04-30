@@ -32,12 +32,17 @@ import Users from "../Pages/User/Users";
 import Profile from "../Pages/User/Profile";
 import Changepass from "../Pages/User/Changepass";
 import CreateUser from "../Pages/User/CreateUser";
+import Index from "../Pages/Dashboard/Index";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
+      {
+        path: "/",
+        element: <Index />,
+      },
       {
         path: "/products",
         element: <ProductList />,

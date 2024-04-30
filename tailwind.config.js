@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        'poppins': ['Poppins','sans-serif'],
+        'SantoshiRegular': 'Santoshi Regular',
+        'SantoshiMedium': 'Santoshi Medium',
+        
+      }
+    },
   },
   plugins: [],
 }

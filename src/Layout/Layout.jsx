@@ -6,11 +6,13 @@ import NewSidebar from "./NewSidebar";
 
 const Layout = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen font-SantoshiMedium">
       <NewSidebar />
-      <div className="flex-1 p-4 overflow-y-auto">
+      <div className="flex-1 p-4 bg-[#F1F5F9] overflow-y-auto">
         <Outlet />
       </div>
+
+
     </div>
   );
 };

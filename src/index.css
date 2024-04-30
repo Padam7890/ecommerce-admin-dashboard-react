@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Santoshi Bold';
+    src: url('../src/assets/fonts/Satoshi-Bold.woff2') format('woff');
+}
+
+@font-face {
+    font-family: 'Santoshi Medium';
+    src: url('../src/assets/fonts/Satoshi-Medium.woff2') format('woff');
+}
+
+@font-face {
+    font-family: 'Santoshi Regular';
+    src: url('../src/assets/fonts/Satoshi-Regular.woff2') format('woff');
+}
+
 .ck-editor__editable {
     min-height: 200px !important;
     max-width: 1000px !important;
