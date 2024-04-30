@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import http from "../Utils/http"; // Assuming http is an axios instance
+import http from "../Utils/http";
 
 const useUserInfoList = () => {
     const [userinfo, setuserinfo] = useState([]);
