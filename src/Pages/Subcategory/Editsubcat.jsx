@@ -96,7 +96,8 @@ const Editsubcat = () => {
 
   // console.log(s);
   return (
-    <div>
+    <div className="relative">
+      
       <form
         encType="multipart/form-data"
         className=" max-w-md mx-auto"

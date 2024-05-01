@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import useSubcategories from "../../CustomHook/subcategory";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const Subcategory = () => {
   const nav = useNavigate();
@@ -21,7 +22,7 @@ const Subcategory = () => {
     fetchSubcategories,
   } = useSubcategories();
   if (isLoadingSubcategories) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (errorSubcategories) {

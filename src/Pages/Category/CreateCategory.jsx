@@ -9,6 +9,7 @@ import Button from "../../Components/Button";
 import { categoryIntialValue, createCategoryValidation } from "./Schema";
 import saveCategory from "./Formdata";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const CreateCategory = () => {
   const nav = useNavigate();
@@ -43,8 +44,14 @@ const CreateCategory = () => {
   }
 
   return (
-    <>
+    <div className=" relative w-full  h-full ">
       <ToastContainer />
+      {isLoading && (
+          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader color={"#008000"} size={120} />
+          </div>
+        )}
+
 
       <form
         encType="multipart/form-data"
@@ -78,7 +85,7 @@ const CreateCategory = () => {
         {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 
