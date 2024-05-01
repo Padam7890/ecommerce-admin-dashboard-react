@@ -3,6 +3,8 @@ import { navmenu } from "./Navbar.jsx";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoExit } from "react-icons/io5";
 import logo from "../assets/logo.png"
+import http from "../Utils/http"; // Assuming http is an axios instance
+
 
 const NewSidebar = () => {
   const nav = useNavigate();
@@ -15,7 +17,7 @@ const NewSidebar = () => {
 
   const fetchuserinfo = async () => {
     try {
-      const res = await http.get("/auth/profile");
+      const res = await  http.get("/auth/profile");
       setRoles(res.data.user.roles);
     } catch (error) {
       console.log(error);
@@ -27,7 +29,7 @@ const NewSidebar = () => {
     localStorage.removeItem("refreshToken");
     nav("/login");
   }
-
+console.log(role)
   return (
     <div>
 
@@ -90,7 +92,7 @@ const NewSidebar = () => {
               </NavLink>
             </li>
 
-            {role && role[0]?.name === "admin" && (
+            {role[0]?.name === "admin" && (
 
             <li>
               <NavLink
