@@ -3,6 +3,7 @@ import http from "../../Utils/http";
 import Button from "../../Components/Button";
 import { useNavigate } from "react-router-dom";
 import useUserInfoList from "../../CustomHook/user";
+import { ClipLoader } from "react-spinners";
 
 const Profile = () => {
   const { userinfo, isLoading, error, fetchuserinfo } = useUserInfoList();
@@ -11,7 +12,7 @@ const Profile = () => {
     nav("/change_password");
   };
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {

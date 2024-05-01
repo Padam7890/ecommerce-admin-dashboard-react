@@ -6,6 +6,7 @@ import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import usetestimonialList from "../../CustomHook/cilent";
+import { ClipLoader } from "react-spinners";
 
 const IndexCilent = () => {
   const nav = useNavigate();
@@ -18,7 +19,7 @@ const IndexCilent = () => {
   } = usetestimonialList();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
