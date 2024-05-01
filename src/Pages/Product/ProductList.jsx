@@ -13,8 +13,8 @@ import http from "../../Utils/http";
 
 const ProductList = () => {
   const { products, isLoading, error, fetchProductList } = useProductList();
-  const [checkany, setcheked] = useState();
   const [isLoadingbtn, setIsLoading] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const nav = useNavigate();
 
@@ -31,9 +31,9 @@ const ProductList = () => {
   }
   async function deleteRequest(valueId) {
     try {
-      setIsLoading(prev=> ({
+      setIsLoading((prev) => ({
         ...prev,
-        [valueId]:true
+        [valueId]: true,
       }));
       console.log(valueId);
       const res = await http.delete(`/products/${valueId}`);
@@ -44,16 +44,56 @@ const ProductList = () => {
       console.log(error);
       toast.error(error.response.data.message);
     } finally {
-      setIsLoading(prev=> ({
+      setIsLoading((prev) => ({
         ...prev,
-        [valueId]:false
-      }));    }
-  }
-  function checkboxall() {
-    setcheked(!checkany);
+        [valueId]: false,
+      }));
+    }
   }
 
-  console.log(checkany);
+  function checkAllHandler() {
+    if (products.length === selectedItems.length) {
+      setSelectedItems([]);
+    } else {
+      // Some items are selected, so select all
+      const postIds = products.map((item) => item.id);
+      setSelectedItems(postIds);
+    }
+  }
+  
+  
+  function checkboxHandler(e) {
+    const isSelected = e.target.checked;
+    const value = parseInt(e.target.value);
+  
+    if (isSelected) {
+      setSelectedItems([...selectedItems, value]);
+    } else {
+      setSelectedItems(selectedItems.filter((id) => id !== value));
+    }
+  }
+
+
+
+  const deletedSelectedItems = async () => {
+    if (selectedItems.length === 0) {
+      toast.error("Please select atleast one item");
+    } else {
+      setIsLoading(true);
+      try {
+      const selectedItemsString = selectedItems.join(",");
+      const res = await http.delete(`/products/deleteall/${selectedItemsString}`)
+      console.log(res.data.message);
+      toast.success(res.data.message);
+      fetchProductList();
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
+}
+
+  console.log(selectedItems);
 
   console.log(products);
   return (
@@ -72,7 +112,7 @@ const ProductList = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading deleteSelectedProducts={deletedSelectedItems} />
         <Table>
           <Thead>
             <tr>
@@ -80,7 +120,8 @@ const ProductList = () => {
                 <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
-                    onClick={checkboxall}
+                    checked={selectedItems.length === products.length}
+                    onClick={checkAllHandler}
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
@@ -105,7 +146,9 @@ const ProductList = () => {
                       id="checkbox-table-search-1"
                       type="checkbox"
                       name="checkbox"
-                      checked={checkany == true ? "checked" : ""}
+                      checked={selectedItems.includes(products.id)}
+                      onChange={checkboxHandler}
+                      value={products.id}
                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
                     <label for="checkbox-table-search-1" class="sr-only">

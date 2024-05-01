@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 // Create an Axios instance with default configurations
 const http = axios.create({
-  baseURL: "https://api-ecommerce-app-express.vercel.app/"
-  // baseURL: "http://127.0.0.1:3000/",
+  // baseURL: "https://api-ecommerce-app-express.vercel.app/"
+  baseURL: "http://127.0.0.1:3000/",
 });
 
 // Add a request interceptor
