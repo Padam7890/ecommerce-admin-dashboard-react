@@ -131,7 +131,7 @@ const EditProduct = () => {
       <ToastContainer />
       {isLoadingbtn && (
           <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
-            <ClipLoader color={"#008000"} size={120} />
+            <ClipLoader  color={"#008000"} size={120} />
           </div>
         )}
 

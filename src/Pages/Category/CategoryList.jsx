@@ -11,12 +11,13 @@ import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import http from "../../Utils/http";
 import useCategories from "../../CustomHook/categoryList";
+import { ClipLoader } from "react-spinners";
 const CategoryList = () => {
   const [category, setCategory] = useState([]);
   const nav = useNavigate();
   const { categories, isLoading, error, fetchCategories } = useCategories();
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
@@ -31,7 +32,8 @@ const CategoryList = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await http.delete(
-        `http://localhost:3000/categories/${category}`);
+        `http://localhost:3000/categories/${category}`
+      );
       console.log(res);
       await fetchCategories();
 

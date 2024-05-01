@@ -7,11 +7,12 @@ import http from "../../Utils/http";
 import useDashboardDetails from "../../CustomHook/dashboard";
 import ChartOne from "../../Components/Charts/ChartOne";
 import ChartTwo from "../../Components/Charts/ChartTwo";
+import { ClipLoader } from "react-spinners";
 
 const Index = () => {
   const { dashboardDetails, isLoading, error } = useDashboardDetails();
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
