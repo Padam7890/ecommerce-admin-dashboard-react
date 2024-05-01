@@ -8,6 +8,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { updatesubcatvalidationScheme } from "./Schema";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const Editsubcat = () => {
   const [categories, setCategories] = useState([]);
@@ -97,7 +98,12 @@ const Editsubcat = () => {
   // console.log(s);
   return (
     <div className="relative">
-      
+       {isLoading && (
+          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader color={"#008000"} size={120} />
+          </div>
+        )}
+
       <form
         encType="multipart/form-data"
         className=" max-w-md mx-auto"

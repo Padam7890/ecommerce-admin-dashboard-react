@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { createsubcatvalidationScheme } from "./Schema";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const Createsubcat = () => {
   const [categories, setCategories] = useState([]);
@@ -74,7 +75,12 @@ const Createsubcat = () => {
   console.log(categories);
 
   return (
-    <div>
+    <div className=" relative w-full h-full">
+        {isLoading && (
+          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader color={"#008000"} size={120} />
+          </div>
+        )}
       <form
         encType="multipart/form-data"
         className=" max-w-md mx-auto"

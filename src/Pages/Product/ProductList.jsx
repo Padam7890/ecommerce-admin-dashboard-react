@@ -32,10 +32,7 @@ const ProductList = () => {
   }
   async function deleteRequest(valueId) {
     try {
-      setIsLoading((prev) => ({
-        ...prev,
-        [valueId]: true,
-      }));
+      setIsLoading(true)
       console.log(valueId);
       const res = await http.delete(`/products/${valueId}`);
       console.log(res.data.message);
@@ -45,10 +42,7 @@ const ProductList = () => {
       console.log(error);
       toast.error(error.response.data.message);
     } finally {
-      setIsLoading((prev) => ({
-        ...prev,
-        [valueId]: false,
-      }));
+      setIsLoading(false);
     }
   }
 
@@ -90,6 +84,9 @@ const ProductList = () => {
         console.log(error);
         toast.error(error.response.data.message);
       }
+      finally{
+        setIsLoading(false);
+      }
     }
   };
 
@@ -97,8 +94,13 @@ const ProductList = () => {
 
   console.log(products);
   return (
-    <div>
+    <div className=" relative h-full w-full">
       <ToastContainer />
+      {isLoadingbtn && (
+          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader color={"#008000"} size={120} />
+          </div>
+        )}
 
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Product List</h2>
@@ -177,7 +179,7 @@ const ProductList = () => {
                     onClick={() => deleteRequest(products.id)}
                     className=" bg-red-500  font-light text-center text-xs "
                   >
-                    {isLoadingbtn[products.id] ? "Deleting... Wait" : "Delete"}
+                    Delete
                   </Button>
                 </td>
               </tr>

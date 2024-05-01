@@ -16,6 +16,7 @@ import formdata from "./formdata";
 import useCategories from "../../CustomHook/categoryList";
 import useSubcategories from "../../CustomHook/subcategory";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const CreateProduct = () => {
   const { categories } = useCategories();
@@ -79,9 +80,13 @@ const CreateProduct = () => {
   console.log(subcategoryoption);
 
   return (
-    <>
+    <div className=" relative h-full w-full">
       <ToastContainer />
-
+      {isLoading && (
+          <div className="w-screen h-screen absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader  color={"#008000"} size={120} />
+          </div>
+        )}
       <form
         encType="multipart/form-data"
         class=" max-w-md mx-auto"
@@ -342,7 +347,7 @@ const CreateProduct = () => {
         </Button>
 
       </form>
-    </>
+    </div>
   );
 };
 
