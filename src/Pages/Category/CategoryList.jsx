@@ -36,11 +36,8 @@ const CategoryList = () => {
         `http://localhost:3000/categories/${category}`
       );
       console.log(res);
-      await fetchCategories();
-
       toast.success(res.data.message);
-
-      // nav("/categories");
+      fetchCategories();
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

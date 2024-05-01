@@ -72,6 +72,7 @@ const Editsubcat = () => {
 
   async function getsubcategrories() {
     try {
+      setIsLoading(true);
       const res = await http.get(`/subcategories/${id}`);
       console.log(res.data.subcat);
       formik.setFieldValue(
@@ -83,6 +84,9 @@ const Editsubcat = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    }
+    finally{
+      setIsLoading(false);
     }
   }
 
@@ -97,7 +101,7 @@ const Editsubcat = () => {
 
   // console.log(s);
   return (
-    <div className="relative">
+    <div className="relative h-full w-full">
        {isLoading && (
           <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
             <ClipLoader color={"#008000"} size={120} />
