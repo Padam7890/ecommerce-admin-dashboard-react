@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { bannerinitialValues, bannervalidation } from "./schema";
 import bannerdata from "./formdata";
@@ -8,11 +8,12 @@ import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
-import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 const Edit = () => {
   const nav = useNavigate();
   const { id } = useParams();
+  const [loading,setLoading] = useState();
 
   const formik = useFormik({
     initialValues: bannerinitialValues,
@@ -31,6 +32,7 @@ const Edit = () => {
 
   const apisenddata = async (data) => {
     try {
+      setLoading(true);
       console.log(data);
     //   const res = await http.put(`/banner/${id}`,  data);
       const res = await http.put(`/banner/${id}`, data);
@@ -41,11 +43,15 @@ const Edit = () => {
       console.log(error);
       toast.error(error);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
 
   const getBanner = async () => {
     try {
+      setLoading(true);
       const res = await http.get(`/banner/${id}`);
       const data = res.data.banner;
       console.log(res.data.banner);
@@ -54,14 +60,24 @@ const Edit = () => {
       formik.setFieldValue("title", data.title);
       formik.setFieldValue("subtitle", data.subtitle);
       formik.setFieldValue("url", data.url);
+
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
+    }
+    finally{
+      setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className=" relative w-full h-full">
       <ToastContainer />
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
 
       <form
         encType="multipart/form-data"

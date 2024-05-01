@@ -13,6 +13,7 @@ import Button from "../../Components/Button";
 import axios from "axios";
 import http from "../../Utils/http";
 import { useState } from "react";
+import { ClipLoader } from "react-spinners";
 
 const Create = () => {
   const nav = useNavigate();
@@ -44,8 +45,14 @@ const Create = () => {
   }
 
   return (
-    <>
+    <div className=" relative w-full h-full">
       <ToastContainer />
+
+      {isLoading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
 
       <form
         encType="multipart/form-data"
@@ -104,7 +111,7 @@ const Create = () => {
         {isLoading ? 'Submitting... Wait' : 'Submit'} 
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 

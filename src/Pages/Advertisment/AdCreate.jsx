@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../Components/Input";
 import Ckeditiors from "../../Components/Ckeditiors";
 import Button from "../../Components/Button";
@@ -8,9 +8,12 @@ import addata from "./adformdata";
 import { ToastContainer, toast } from "react-toastify";
 import http from "../../Utils/http";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const AdCreate = () => {
-    const nav = useNavigate();
+  const nav = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialadvalue,
     validationSchema: createadvalidation,
@@ -23,22 +26,28 @@ const AdCreate = () => {
 
   const apisenddata = async (data) => {
     try {
-      const res = await http.post(
-        "/advertisement",
-        data
-      );
+      setLoading(true);
+      const res = await http.post("/advertisement", data);
       console.log(res);
       nav("/advertisment");
     } catch (error) {
       console.log(error);
       toast.error(error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <>
+    <div className=" relative w-full h-full">
       <ToastContainer />
-
+      
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
       <form
         encType="multipart/form-data"
         className=" max-w-md mx-auto"
@@ -111,7 +120,7 @@ const AdCreate = () => {
           Submit
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 

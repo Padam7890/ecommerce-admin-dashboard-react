@@ -10,7 +10,6 @@ const userValidation = object({
     .required("Please re-type your password")
     .oneOf([ref("password"), null], "Passwords must match"),
   roles: string(),
-  permissions: array().min(1, 'Select at least one permission'),
 
 });
 
@@ -20,7 +19,6 @@ const userInitialValue = {
     password: "",
     confirm_password: "",
     roles: "",
-    permissions: [],
 
 }
 

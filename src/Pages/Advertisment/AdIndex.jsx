@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Button from "../../Components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -7,9 +7,11 @@ import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import useAdvertisement from "../../CustomHook/advertisement";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const AdIndex = () => {
   const nav = useNavigate();
+  const [loading, setLoading] =useState(false);
 
   const {
     adList,
@@ -19,7 +21,7 @@ const AdIndex = () => {
   } = useAdvertisement();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
@@ -33,6 +35,7 @@ const AdIndex = () => {
 
   const deletead = async (id)=>{
     try {
+      setLoading(true);
       const res = await http.delete(`/advertisement/${id}`);
       console.log(res.data.message);
       toast.success(res.data.message)
@@ -42,13 +45,21 @@ const AdIndex = () => {
       console.log(error);
       toast.error(error.response.data.message);
     }
+    finally{
+      setLoading(false);
+    }
 
   }
 
   console.log(adList);
   return (
-    <div>
+    <div className="relative w-full h-full">
       <ToastContainer />
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Advertisment List</h2>
         <Button

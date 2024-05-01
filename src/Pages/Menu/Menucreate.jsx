@@ -7,10 +7,12 @@ import http from "../../Utils/http";
 import { ToastContainer, toast } from "react-toastify";
 import { initialmenuvalue, menuvalidation } from "./schema";
 import Button from "../../Components/Button";
+import { ClipLoader } from "react-spinners";
 
 const Menucreate = () => {
   const nav = useNavigate();
   const [Menus, setMenus] = useState([]);
+  const [loading,setLoading] = useState(false)
   const formik = useFormik({
     initialValues: initialmenuvalue,
     validationSchema: menuvalidation,
@@ -22,6 +24,7 @@ const Menucreate = () => {
 
   const menusend = async (values) => {
     try {
+      setLoading(true)
       const response = await http.post("/menu", values);
       console.log(response);
       toast.success(response.data.message);
@@ -29,6 +32,9 @@ const Menucreate = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -38,11 +44,15 @@ const Menucreate = () => {
 
   const getMenus = async () => {
     try {
+      setLoading(true);
       const res = await http.get("/menu");
       const result = res.data.menu;
       setMenus(result);
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -51,8 +61,13 @@ const Menucreate = () => {
     label: menu.title,
   }));
   return (
-    <>
+    <div className=" relative h-full w-full">
       <ToastContainer />
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
 
       <form
         encType="multipart/form-data"
@@ -96,7 +111,7 @@ const Menucreate = () => {
           Submit
         </Button>
       </form>
-    </>
+    </div>
   );
 };
 

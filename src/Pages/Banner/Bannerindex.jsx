@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Button from "../../Components/Button";
 import TableHeading from "../../Components/Table/TableHeading";
@@ -9,16 +9,18 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import useBannerList from "../../CustomHook/bannerList";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const Bannerindex = () => {
   const { bannerList, isLoading, error, fetchBannerList } = useBannerList();
+  const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
   const handleclick = () => {
     nav("/create/banner");
   };
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
@@ -27,19 +29,27 @@ const Bannerindex = () => {
 
   const deletebanner = async (value) => {
     try {
+      setLoading(true);
       const res = await http.delete(`/banner/${value}`);
       console.log(res.data.message);
       fetchBannerList();
+      toast.success(res.data.message)
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
-
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className=" relative w-full h-full">
       <ToastContainer />
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Banner List</h2>
         <Button
@@ -101,7 +111,7 @@ const Bannerindex = () => {
                     </NavLink>
 
                     <Button
-                      onClick={ ()=> deletebanner(item.id)}
+                      onClick={() => deletebanner(item.id)}
                       href="#"
                       className=" bg-red-500  font-light text-center text-xs"
                     >

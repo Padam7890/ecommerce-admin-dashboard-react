@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
@@ -7,14 +7,16 @@ import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import useLogosList from "../../CustomHook/logolist";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const Logoindex = () => {
   const { logosList, isLoading, error, fetchLogosList } = useLogosList();
+  const [loading, setloading] = useState(false);
 
   const nav = useNavigate();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
@@ -25,18 +27,28 @@ const Logoindex = () => {
     nav("/create/logo");
   };
 
-  const deletelogo = async (value)=> {
-      try {
-        const res = await http.delete(`/logos/${value}`);
-        console.log(res.data.message);
-        fetchLogosList();
-      } catch (error) {
-        console.log(error);
-      }
-  }
+  const deletelogo = async (value) => {
+    try {
+      setloading(true);
+      const res = await http.delete(`/logos/${value}`);
+      console.log(res.data.message);
+      fetchLogosList();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setloading(false);
+    }
+  };
 
   return (
-    <>
+    <div className=" relative w-full h-full">
+      <ToastContainer />
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
+
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Logo List</h2>
         <Button
@@ -71,7 +83,10 @@ const Logoindex = () => {
           </Thead>
           <tbody>
             {logosList.map((logo, index) => (
-              <tr key={index} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr
+                key={index}
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
                 <td class="w-4 p-4">
                   <div class="flex items-center">
                     <input
@@ -97,7 +112,7 @@ const Logoindex = () => {
                   </NavLink>
 
                   <Button
-                    onClick={()=>deletelogo(logo.id)}
+                    onClick={() => deletelogo(logo.id)}
                     href="#"
                     className=" bg-red-500  font-light text-center text-xs"
                   >
@@ -109,7 +124,7 @@ const Logoindex = () => {
           </tbody>
         </Table>
       </div>
-    </>
+    </div>
   );
 };
 

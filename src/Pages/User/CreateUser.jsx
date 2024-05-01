@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 const CreateUser = () => {
   const nav = useNavigate();
   const [roles, setRoles] = useState([]);
-  const [permissions, setPermissions] = useState([]);
   const formik = useFormik({
     initialValues: userInitialValue,
     validationSchema: userValidation,
@@ -25,9 +24,10 @@ const CreateUser = () => {
     getroles();
   }, []);
 
-  const addNewuser = async (user) => {
+  const addNewuser = async (values) => {
     try {
-      const res = await http.post("/auth/addnewuser'", user);
+      const res = await http.post("/auth/addnewuser", values);
+      console.log(res);
       toast.success(res.data.message);
       nav("/users");
     } catch (error) {
@@ -50,8 +50,6 @@ const CreateUser = () => {
     value: roles.id,
     label: roles.name,
   }));
-
-
 
 
   return (

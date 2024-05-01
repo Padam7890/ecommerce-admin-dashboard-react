@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import ReactApexChart from "react-apexcharts";
 const ChartTwo = () => {
     const options= {
-        colors: ['#3C50E0', '#80CAEE'],
-        chart: {
+      colors: ["#4CAF50", "#80CAEE"],
+      chart: {
           fontFamily: 'Satoshi, sans-serif',
           type: 'bar',
           height: 335,

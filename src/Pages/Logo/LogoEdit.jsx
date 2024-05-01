@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -7,9 +7,11 @@ import logocreate from "./formdata";
 import http from "../../Utils/http";
 import { useNavigate, useParams } from "react-router-dom";
 import { logoInitialValues, updateLogoValidation } from "./schema";
+import { ClipLoader } from "react-spinners";
 const Logoedit = () => {
   const { id } = useParams();
   const nav = useNavigate();
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: logoInitialValues,
     validationSchema: updateLogoValidation,
@@ -22,6 +24,7 @@ const Logoedit = () => {
 
   const apisendata = async (data) => {
     try {
+      setLoading(true);
       const res = await http.put(`/logos/${id}`, data);
       console.log(res);
       toast.success(res.data.message);
@@ -29,6 +32,9 @@ const Logoedit = () => {
     } catch (error) {
       console.log(error);
       toast.error(error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -38,6 +44,7 @@ const Logoedit = () => {
 
   const getlogo = async () => {
     try {
+      setLoading(true);
       const res = await http.get(`logos/${id}`);
       const data = res.data.logo;
       console.log(res.data.logo);
@@ -49,11 +56,20 @@ const Logoedit = () => {
       console.log(error);
       toast.error(error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div>
+    <div className=" relative w-full h-full">
       <ToastContainer />
+
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
 
       <form
         encType="multipart/form-data"

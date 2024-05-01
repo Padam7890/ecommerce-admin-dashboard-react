@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
@@ -7,11 +7,13 @@ import { createLogoValidation, logoInitialValues } from "./schema";
 import logocreate from "./formdata";
 import http from "../../Utils/http";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 
 const LogoCreate = () => {
 
     const nav = useNavigate();
+    const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: logoInitialValues,
@@ -25,6 +27,7 @@ const LogoCreate = () => {
 
   const apisendata = async(data) => {
     try {
+      setLoading(true);
       const res = await http.post("/logos", data);
       console.log(res);
       toast.success(res.data.message);
@@ -33,12 +36,19 @@ const LogoCreate = () => {
       console.log(error);
       toast.error(error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <ToastContainer />
-
+      {loading && (
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
       <form
         encType="multipart/form-data"
         className=" max-w-md mx-auto"
