@@ -10,6 +10,7 @@ import Thead from "../../Components/Table/Thead";
 import parse from "html-react-parser";
 import useProductList from "../../CustomHook/productlist";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const ProductList = () => {
   const { products, isLoading, error, fetchProductList } = useProductList();
@@ -23,7 +24,7 @@ const ProductList = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ClipLoader color={"#008000"} size={40} />;
   }
 
   if (error) {
@@ -60,12 +61,11 @@ const ProductList = () => {
       setSelectedItems(postIds);
     }
   }
-  
-  
+
   function checkboxHandler(e) {
     const isSelected = e.target.checked;
     const value = parseInt(e.target.value);
-  
+
     if (isSelected) {
       setSelectedItems([...selectedItems, value]);
     } else {
@@ -73,25 +73,25 @@ const ProductList = () => {
     }
   }
 
-
-
   const deletedSelectedItems = async () => {
     if (selectedItems.length === 0) {
       toast.error("Please select atleast one item");
     } else {
       setIsLoading(true);
       try {
-      const selectedItemsString = selectedItems.join(",");
-      const res = await http.delete(`/products/deleteall/${selectedItemsString}`)
-      console.log(res.data.message);
-      toast.success(res.data.message);
-      fetchProductList();
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+        const selectedItemsString = selectedItems.join(",");
+        const res = await http.delete(
+          `/products/deleteall/${selectedItemsString}`
+        );
+        console.log(res.data.message);
+        toast.success(res.data.message);
+        fetchProductList();
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
+      }
     }
-  }
-}
+  };
 
   console.log(selectedItems);
 

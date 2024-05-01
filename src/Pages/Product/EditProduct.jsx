@@ -18,6 +18,7 @@ import useSubcategories from "../../CustomHook/subcategory";
 import { initialValues, validationScheme } from "./schema";
 import formdata from "./formdata";
 import http from "../../Utils/http";
+import { ClipLoader } from "react-spinners";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -58,6 +59,7 @@ const EditProduct = () => {
 
   async function getProduct() {
     try {
+      setIsLoading(true);
       const res = await http.get(`/products/${id}`);
       const productdet = res.data.product;
       formik.setValues({
@@ -89,6 +91,8 @@ const EditProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -121,13 +125,22 @@ const EditProduct = () => {
 
   return (
     <>
+    <div
+     className="relative "
+    >
       <ToastContainer />
+      {isLoadingbtn && (
+          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+            <ClipLoader color={"#008000"} size={120} />
+          </div>
+        )}
 
       <form
         encType="multipart/form-data"
-        class=" max-w-md mx-auto"
+        class={`max-w-md mx-auto  `}
         onSubmit={formik.handleSubmit}
       >
+       
         <Input
           title="Product Name"
           type="text"
@@ -368,9 +381,10 @@ const EditProduct = () => {
         <Image imageList={formik.values.product_image} formik={formik} />
 
         <Button type="submit" className="mt-5 bg-green-700  hover:bg-green-900">
-          {isLoadingbtn ? "Submitting... Wait" : "Submit"}
+          Submit
         </Button>
       </form>
+      </div>
     </>
   );
 };
