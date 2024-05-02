@@ -67,7 +67,7 @@ const Bannerindex = () => {
           <Thead>
             <tr>
               <th scope="col" class="p-4">
-                <div class="flex items-center">
+                {/* <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -76,7 +76,8 @@ const Bannerindex = () => {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div>
+                </div> */}
+                No
               </th>
               <th scope="col">Banner name</th>
               <th scope="col">Action</th>
@@ -87,7 +88,8 @@ const Bannerindex = () => {
               return (
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td class="w-4 p-4">
-                    <div class="flex items-center">
+                    {index+1 +"."}
+                    {/* <div class="flex items-center">
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
@@ -96,7 +98,7 @@ const Bannerindex = () => {
                       <label for="checkbox-table-search-1" class="sr-only">
                         checkbox
                       </label>
-                    </div>
+                    </div> */}
                   </td>
 
                   <td className="px-4 py-4"> {item.title}</td>
@@ -119,7 +121,7 @@ const Bannerindex = () => {
                     </Button>
                   </td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </Table>

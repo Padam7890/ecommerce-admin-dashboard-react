@@ -13,7 +13,13 @@ import http from "../../Utils/http";
 import { ClipLoader } from "react-spinners";
 
 const ProductList = () => {
-  const { products, isLoading, error, fetchProductList } = useProductList();
+  const {
+    products,
+    isLoading,
+    error,
+    fetchProductList,
+    setProducts,
+  } = useProductList();
   const [isLoadingbtn, setIsLoading] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -32,12 +38,12 @@ const ProductList = () => {
   }
   async function deleteRequest(valueId) {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       console.log(valueId);
       const res = await http.delete(`/products/${valueId}`);
       console.log(res.data.message);
       toast.success(res.data.message);
-      fetchProductList();
+      await fetchProductList();
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -83,9 +89,26 @@ const ProductList = () => {
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message);
-      }
-      finally{
+      } finally {
         setIsLoading(false);
+      }
+    }
+  };
+
+  const filteritems = async (query) => {
+    console.log(query + "query");
+    if (query) {
+      let filteredProducts = products.filter((product) =>
+        product.product_title.toLowerCase().includes(query.toLowerCase())
+      );
+      setProducts(filteredProducts);
+    }
+    if (query.length === 0) {
+      try {
+        await fetchProductList();
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
       }
     }
   };
@@ -97,10 +120,10 @@ const ProductList = () => {
     <div className=" relative h-full w-full">
       <ToastContainer />
       {isLoadingbtn && (
-          <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
-            <ClipLoader color={"#008000"} size={120} />
-          </div>
-        )}
+        <div className="bg-slate-800 bg-opacity-40 w-full h-full absolute z-30 top-0 left-0 flex justify-center items-center">
+          <ClipLoader color={"#008000"} size={120} />
+        </div>
+      )}
 
       <div className=" flex items-center justify-between">
         <h2 className="text-2xl font-semibold mb-4">Product List</h2>
@@ -113,8 +136,11 @@ const ProductList = () => {
         </Button>{" "}
       </div>
 
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading deleteSelectedProducts={deletedSelectedItems} />
+      <div class="relative overflow-x-auto  shadow-md sm:rounded-lg">
+        <TableHeading
+          filteritems={filteritems}
+          deleteSelectedProducts={deletedSelectedItems}
+        />
         <Table>
           <Thead>
             <tr>
@@ -139,9 +165,9 @@ const ProductList = () => {
               <th scope="col">Action</th>
             </tr>
           </Thead>
-          <tbody>
+          <tbody className=" bg-white w-full h-full">
             {products.map((products) => (
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr class="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                   <div class="flex items-center">
                     <input
@@ -184,7 +210,7 @@ const ProductList = () => {
                 </td>
               </tr>
             ))}
-            ;
+            
           </tbody>
         </Table>
       </div>

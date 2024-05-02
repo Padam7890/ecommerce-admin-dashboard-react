@@ -51,7 +51,7 @@ const IndexCilent = () => {
           <Thead>
             <tr>
               <th scope="col" class="p-4">
-                <div class="flex items-center">
+                {/* <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -60,7 +60,8 @@ const IndexCilent = () => {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div>
+                </div> */}
+                No
               </th>
               <th scope="col">Cilent name</th>
               <th scope="col">Cilent Rating</th>
@@ -69,13 +70,13 @@ const IndexCilent = () => {
             </tr>
           </Thead>
           <tbody>
-            {testimonialList.map((item) => (
+            {testimonialList.map((item,index) => (
               <tr
                 key={item.id}
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td class="w-4 p-4">
-                  <div class="flex items-center">
+                  {/* <div class="flex items-center">
                     <input
                       id="checkbox-table-search-1"
                       type="checkbox"
@@ -84,7 +85,8 @@ const IndexCilent = () => {
                     <label for="checkbox-table-search-1" class="sr-only">
                       checkbox
                     </label>
-                  </div>
+                  </div> */}
+                {index + 1 + "."}
                 </td>
 
                 <td className="px-4 py-4">{item.clientName} </td>

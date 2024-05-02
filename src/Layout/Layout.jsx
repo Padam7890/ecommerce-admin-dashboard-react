@@ -10,8 +10,6 @@ const Layout = () => {
       <div className="flex-1 p-4 bg-[#F1F5F9] overflow-y-auto">
         <Outlet />
       </div>
-
-
     </div>
   );
 };

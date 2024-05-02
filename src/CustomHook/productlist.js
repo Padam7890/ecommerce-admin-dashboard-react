@@ -24,7 +24,8 @@ const useProductList = () => {
       setIsLoading(false);
     }
   };
-  return { products, isLoading, error, fetchProductList };
+  
+  return { products, isLoading, error, fetchProductList,setProducts };
 };
 
 export default useProductList;

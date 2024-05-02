@@ -26,8 +26,6 @@ const Users = () => {
         <ToastContainer />
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold mb-4">Users List</h2>
-
-          
           <Button
             type="button"
             onClick={handleButtonClick}
@@ -43,7 +41,7 @@ const Users = () => {
             <Thead>
               <tr>
                 <th scope="col" className="p-4">
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     <input
                       id="checkbox-all-search"
                       type="checkbox"
@@ -52,7 +50,8 @@ const Users = () => {
                     <label htmlFor="checkbox-all-search" className="sr-only">
                       checkbox
                     </label>
-                  </div>
+                  </div> */}
+                  No.
                 </th>
                 <th scope="col">User name</th>
                 <th scope="col">User Role</th>
@@ -67,7 +66,7 @@ const Users = () => {
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <td className="w-4 p-4">
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                       <input
                         id={`checkbox-table-search-${user.id}`}
                         type="checkbox"
@@ -79,7 +78,8 @@ const Users = () => {
                       >
                         checkbox
                       </label>
-                    </div>
+                    </div> */}
+                    {index + 1 + "."}
                   </td>
 
                   <td className="px-4 py-4">{user.name}</td>

@@ -65,7 +65,7 @@ const Menuindex = () => {
           <Thead>
             <tr>
               <th scope="col" class="p-4">
-                <div class="flex items-center">
+                {/* <div class="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
@@ -74,20 +74,21 @@ const Menuindex = () => {
                   <label for="checkbox-all-search" class="sr-only">
                     checkbox
                   </label>
-                </div>
+                </div> */}
+                No
               </th>
               <th scope="col">Menu name</th>
               <th scope="col">Action</th>
             </tr>
           </Thead>
           <tbody>
-            {menusList.map((menu) => (
+            {menusList.map((menu,index) => (
               <tr
                 key={menu.id}
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td class="w-4 p-4">
-                  <div class="flex items-center">
+                  {/* <div class="flex items-center">
                     <input
                       id="checkbox-table-search-1"
                       type="checkbox"
@@ -96,7 +97,8 @@ const Menuindex = () => {
                     <label for="checkbox-table-search-1" class="sr-only">
                       checkbox
                     </label>
-                  </div>
+                  </div> */}
+                  {index + 1 +"."}
                 </td>
 
                 <td className="px-4 py-4">{menu.title}</td>

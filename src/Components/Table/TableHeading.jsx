@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import Button from "../Button";
 
-const TableHeading = ({deleteSelectedProducts}) => {
+const TableHeading = ({deleteSelectedProducts, filteritems}) => {
   const [openBtn, setopenBtn] = useState(false);
 
   function tooglebtn({}) {
     setopenBtn(!openBtn);
     console.log("tooglebtn");
   }
+  const itemchange = (e)=> {
+    filteritems(e.target.value)
+  }
   return (
-    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 p-5 bg-white dark:bg-gray-900">
       <div>
         <button
           type="button"
@@ -52,7 +55,7 @@ const TableHeading = ({deleteSelectedProducts}) => {
           </div>
         )}
       </div>
-      <label for="table-search" class="sr-only">
+      <label  for="table-search" class="sr-only">
         Search
       </label>
       <div class="relative">
@@ -77,7 +80,8 @@ const TableHeading = ({deleteSelectedProducts}) => {
           type="text"
           id="table-search-users"
           class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search for users"
+          placeholder="Search ..."
+          onChange={itemchange}
         />
       </div>
     </div>
