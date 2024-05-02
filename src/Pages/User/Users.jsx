@@ -6,12 +6,21 @@ import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import useUserList from "../../CustomHook/users";
+import { ClipLoader } from "react-spinners";
 
 const Users = () => {
   const nav = useNavigate();
   const [permission, setPermission] = useState();
 
   const { UserList, isLoading, error, fetchUserList } = useUserList();
+
+  if (isLoading) {
+    return <ClipLoader color={"#008000"} size={40} />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   const handleButtonClick = () => {
     nav("/addNewUser");

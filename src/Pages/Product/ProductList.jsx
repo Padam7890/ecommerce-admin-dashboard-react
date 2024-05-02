@@ -1,16 +1,17 @@
 // src/components/ProductList.jsx
 import React, { useEffect, useState } from "react";
-import Button from "../../Components/Button";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { ClipLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
+
 import TableHeading from "../../Components/Table/TableHeading";
 import Table from "../../Components/Table/Table";
 import Thead from "../../Components/Table/Thead";
 import parse from "html-react-parser";
 import useProductList from "../../CustomHook/productlist";
 import http from "../../Utils/http";
-import { ClipLoader } from "react-spinners";
+import Button from "../../Components/Button";
+
 
 const ProductList = () => {
   const {
@@ -95,24 +96,6 @@ const ProductList = () => {
     }
   };
 
-  const filteritems = async (query) => {
-    console.log(query + "query");
-    if (query) {
-      let filteredProducts = products.filter((product) =>
-        product.product_title.toLowerCase().includes(query.toLowerCase())
-      );
-      setProducts(filteredProducts);
-    }
-    if (query.length === 0) {
-      try {
-        await fetchProductList();
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response.data.message);
-      }
-    }
-  };
-
   console.log(selectedItems);
 
   console.log(products);
@@ -138,7 +121,10 @@ const ProductList = () => {
 
       <div class="relative overflow-x-auto  shadow-md sm:rounded-lg">
         <TableHeading
-          filteritems={filteritems}
+          items={products}
+          setItems={setProducts}
+          fetchItemList={fetchProductList}
+          searchfor={'product_title'}
           deleteSelectedProducts={deletedSelectedItems}
         />
         <Table>
@@ -210,7 +196,6 @@ const ProductList = () => {
                 </td>
               </tr>
             ))}
-            
           </tbody>
         </Table>
       </div>

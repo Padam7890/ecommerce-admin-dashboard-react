@@ -23,7 +23,7 @@ const useLogosList = () => {
 
    
    
-   return {logosList, isLoading, error, fetchLogosList };
+   return {logosList, setLogosList, isLoading, error, fetchLogosList };
 }
 
 export default useLogosList;

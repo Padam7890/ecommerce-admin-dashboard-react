@@ -28,7 +28,7 @@ const useSubcategories = () => {
     }
   };
 
-  return { subcategory, isLoadingSubcategories, errorSubcategories ,fetchSubcategories };
+  return { subcategory, setSubcategories, isLoadingSubcategories, errorSubcategories ,fetchSubcategories };
 };
 
 export default useSubcategories;

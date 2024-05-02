@@ -23,7 +23,7 @@ const useAdvertisement = () => {
 
    
    
-   return { adList, isLoading, error, fetchadvertismentList };
+   return { adList, setadList, isLoading, error, fetchadvertismentList };
 }
 
 export default useAdvertisement;

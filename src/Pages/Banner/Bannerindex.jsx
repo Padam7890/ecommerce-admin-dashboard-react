@@ -12,7 +12,7 @@ import http from "../../Utils/http";
 import { ClipLoader } from "react-spinners";
 
 const Bannerindex = () => {
-  const { bannerList, isLoading, error, fetchBannerList } = useBannerList();
+  const { bannerList, setBannerList, isLoading, error, fetchBannerList } = useBannerList();
   const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
@@ -62,7 +62,12 @@ const Bannerindex = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading
+          items={bannerList}
+          setItems={setBannerList}
+          fetchItemList={fetchBannerList}
+          searchfor={"title"}
+         />
         <Table>
           <Thead>
             <tr>

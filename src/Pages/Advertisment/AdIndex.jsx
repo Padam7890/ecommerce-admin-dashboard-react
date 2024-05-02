@@ -15,6 +15,7 @@ const AdIndex = () => {
 
   const {
     adList,
+    setadList,
     isLoading,
     error,
     fetchadvertismentList,
@@ -72,7 +73,12 @@ const AdIndex = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading
+           items={adList}
+           setItems={setadList}
+           fetchItemList={fetchadvertismentList}
+           searchfor={"Title"}
+         />
         <Table>
           <Thead>
             <tr>

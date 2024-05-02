@@ -23,7 +23,7 @@ const useBannerList = () => {
 
    
    
-   return { bannerList, isLoading, error, fetchBannerList };
+   return { bannerList, setBannerList, isLoading, error, fetchBannerList };
 }
 
 export default useBannerList;

@@ -17,6 +17,7 @@ const Subcategory = () => {
 
   const {
     subcategory,
+    setSubcategories,
     isLoadingSubcategories,
     errorSubcategories,
     fetchSubcategories,
@@ -73,7 +74,12 @@ const Subcategory = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading
+          items={subcategory}
+          setItems={setSubcategories}
+          fetchItemList={fetchSubcategories}
+          searchfor={"subcategory_name"}
+        />
         <Table>
           <Thead>
             <tr>
@@ -99,7 +105,7 @@ const Subcategory = () => {
             {subcategory.map((subcat, index) => (
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-8 p-6">
-                  {index+1 +'.'}
+                  {index + 1 + "."}
                   {/* <div class="flex items-center">
                     <input
                       id="checkbox-table-search-1"
@@ -134,7 +140,6 @@ const Subcategory = () => {
                 </td>
               </tr>
             ))}
-            
           </tbody>
         </Table>
       </div>

@@ -15,7 +15,7 @@ import { ClipLoader } from "react-spinners";
 const CategoryList = () => {
   const [category, setCategory] = useState([]);
   const nav = useNavigate();
-  const { categories, isLoading, error, fetchCategories } = useCategories();
+  const { categories, isLoading, error, fetchCategories,setCategories } = useCategories();
   const [loading, setLoading ]= useState(false);
   if (isLoading) {
     return <ClipLoader color={"#008000"} size={40} />;
@@ -68,7 +68,12 @@ const CategoryList = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading
+           searchfor= "category_name"
+           items={categories}
+           setItems={setCategories}
+           fetchItemList={fetchCategories}
+         />
         <Table>
           <Thead>
             <tr>

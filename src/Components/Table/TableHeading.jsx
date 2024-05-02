@@ -1,16 +1,42 @@
 import React, { useState } from "react";
 import Button from "../Button";
 
-const TableHeading = ({deleteSelectedProducts, filteritems}) => {
+const TableHeading = ({
+  deleteSelectedProducts,
+  items,
+  setItems,
+  fetchItemList,
+  searchfor
+}) => {
   const [openBtn, setopenBtn] = useState(false);
 
   function tooglebtn({}) {
     setopenBtn(!openBtn);
     console.log("tooglebtn");
   }
-  const itemchange = (e)=> {
-    filteritems(e.target.value)
-  }
+
+  //filter items
+  const filteritems = async (query) => {
+    console.log(query + "query");
+    if (query) {
+      let filteredItems = items.filter((item) =>
+        item[searchfor].toLowerCase().includes(query.toLowerCase())
+      );
+      setItems(filteredItems);
+    }
+    if (query.length === 0) {
+      try {
+        await fetchItemList();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const itemchange = (e) => {
+    filteritems(e.target.value);
+  };
+
   return (
     <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 p-5 bg-white dark:bg-gray-900">
       <div>
@@ -55,7 +81,7 @@ const TableHeading = ({deleteSelectedProducts, filteritems}) => {
           </div>
         )}
       </div>
-      <label  for="table-search" class="sr-only">
+      <label for="table-search" class="sr-only">
         Search
       </label>
       <div class="relative">

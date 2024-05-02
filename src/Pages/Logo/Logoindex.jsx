@@ -10,7 +10,7 @@ import http from "../../Utils/http";
 import { ClipLoader } from "react-spinners";
 
 const Logoindex = () => {
-  const { logosList, isLoading, error, fetchLogosList } = useLogosList();
+  const { logosList, setLogosList, isLoading, error, fetchLogosList } = useLogosList();
   const [loading, setloading] = useState(false);
 
   const nav = useNavigate();
@@ -61,7 +61,12 @@ const Logoindex = () => {
       </div>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <TableHeading />
+        <TableHeading
+           items={logosList}
+           setItems={setLogosList}
+           fetchItemList={fetchLogosList}
+           searchfor={"name"}
+         />
         <Table>
           <Thead>
             <tr>
