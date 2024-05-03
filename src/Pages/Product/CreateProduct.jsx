@@ -89,7 +89,7 @@ const CreateProduct = () => {
         )}
       <form
         encType="multipart/form-data"
-        class=" max-w-md mx-auto"
+        class=" max-w-2xl mx-auto w-full "
         onSubmit={formik.handleSubmit}
       >
         <Input
@@ -318,7 +318,7 @@ const CreateProduct = () => {
           />
         </div>
 
-        <div className="my-5 flex justify-between ">
+        <div className="my-5 flex gap-4  ">
           <Input
             title="Featured ?"
             formik={formik}

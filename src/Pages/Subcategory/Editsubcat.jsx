@@ -110,7 +110,7 @@ const Editsubcat = () => {
 
       <form
         encType="multipart/form-data"
-        className=" max-w-md mx-auto"
+        className=" max-w-2xl mx-auto w-full "
         onSubmit={formik.handleSubmit}
       >
         <div className=" my-5">
