@@ -29,8 +29,9 @@ const CreateProduct = () => {
     initialValues: initialValues,
     validationSchema: validationScheme,
     onSubmit: (values) => {
+      console.log(values)
       const data = formdata(values);
-      apisendata(data);
+      // apisendata(data);
     },
   });
 

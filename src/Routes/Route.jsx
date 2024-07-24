@@ -33,6 +33,7 @@ import Profile from "../Pages/User/Profile";
 import Changepass from "../Pages/User/Changepass";
 import CreateUser from "../Pages/User/CreateUser";
 import Index from "../Pages/Dashboard/Index";
+import Form from "../Test/Form";
 
 const router = createBrowserRouter([
   {
@@ -186,6 +187,10 @@ const router = createBrowserRouter([
     path: "/auth/resetpassword/:token",
     element: <Resetpass />,
   },
+  {
+    path: "/test",
+    element:<Form/>,
+  }
 ]);
 
 export { router };

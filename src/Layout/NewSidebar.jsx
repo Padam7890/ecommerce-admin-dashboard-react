@@ -70,7 +70,7 @@ const NewSidebar = () => {
             ))}
           </ul>
           <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-            {role[0]?.name === "admin" && (
+            {/* {role[0]?.name === "admin" && ( */}
               <li>
                 <NavLink
                   to={"/users"}
@@ -88,7 +88,7 @@ const NewSidebar = () => {
                   <span class="ms-3"> User Management</span>
                 </NavLink>
               </li>
-            )}
+            {/* )} */}
 
             <li>
               <NavLink
